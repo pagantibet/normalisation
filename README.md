@@ -20,7 +20,13 @@ Datasets and models can be found on the [PaganTibet Huggingface](https://hugging
 
 ## Tokenisation
 
-To test the effect of tokenisation, we prepared both tokenised and non-tokenised versions of each dataset using the [Botok Tibetan tokeniser](www.github.com/OpenPecha/botok). Note that our results show tokenisation is best lest until after Normalisation in the pipeline.
+To test the effect of tokenisation, we prepared both tokenised and non-tokenised versions of each dataset using a customised version of the [Botok Tibetan tokeniser](www.github.com/OpenPecha/botok). Note that our results show tokenisation is best lest until after Normalisation in the pipeline. To tokenise source and target data:
+
+```
+python3 botokenise_src-tgt.py
+```
+
+The full ReadMe of this script can be found in [Data_Preparation/botokenise_src-tgt_ReadMe]().
 
 ## Creating lines & cleaning text
 
@@ -30,7 +36,7 @@ Since Normalisation is in essence a sequence-2-sequence task that ideally requir
 python3 createTiblines.py
 ```
 
-The full ReadMe of this script can be found in [dataaugmentation/createTiblines_ReadMe]().
+The full ReadMe of this script can be found in [Data_Augmentation/createTiblines_ReadMe]().
 
 # Data Augmentation
 
