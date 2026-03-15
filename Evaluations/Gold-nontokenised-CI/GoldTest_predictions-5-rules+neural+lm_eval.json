@@ -1,0 +1,51 @@
+{
+  "evaluation_mode": "predictions",
+  "test_src": "inference/GoldTest_source.txt",
+  "test_tgt": "inference/GoldTest_target.txt",
+  "samples_evaluated": 217,
+  "evaluation_time_seconds": 0.13527202606201172,
+  "metrics": {
+    "character_error_rate": 0.32359342531791246,
+    "precision": 0.30474486913952176,
+    "recall": 0.339379324806039,
+    "f1_score": 0.32113095238095235,
+    "correcting_recall": 0.19449845178944336,
+    "correcting_precision": 0.17402229237806843,
+    "total_errors": 13887,
+    "correctly_corrected": 2701,
+    "identified_errors": 15521
+  },
+  "bootstrap_cis_95": {
+    "n_iterations": 1000,
+    "character_error_rate": {
+      "lower": 0.27199471044820794,
+      "upper": 0.4067919151774626
+    },
+    "precision": {
+      "lower": 0.27633444175924904,
+      "upper": 0.3342527650443996
+    },
+    "recall": {
+      "lower": 0.3070745415273319,
+      "upper": 0.3727637298745289
+    },
+    "f1_score": {
+      "lower": 0.2912479523423304,
+      "upper": 0.3526387026249475
+    },
+    "correcting_recall": {
+      "lower": 0.16613720474393134,
+      "upper": 0.22718346796813263
+    },
+    "correcting_precision": {
+      "lower": 0.14884054093696783,
+      "upper": 0.20215332529453903
+    }
+  },
+  "predictions_file": "inference/GoldTest-inferences/GoldTest_predictions-5-rules+neural+lm.txt",
+  "inference_method": "rules+neural+lm",
+  "uses_neural_model": false,
+  "uses_kenlm": false,
+  "uses_preprocessing": false,
+  "uses_postprocessing": false
+}
