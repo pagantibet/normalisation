@@ -1,0 +1,40 @@
+======================================================================
+TIBETAN TEXT NORMALIZATION - INFERENCE REPORT
+======================================================================
+
+RUN INFORMATION
+----------------------------------------------------------------------
+Date/Time:        2026-01-10 11:23:12
+Mode:             neural
+Device:           cuda
+Random Seed:      42
+
+INPUT/OUTPUT
+----------------------------------------------------------------------
+Input file:       ACTibOCRnoiseTest_source-tok.txt
+Output file:      ACTibOCRnoiseTest_source-tok_predictions-2-neural.txt
+Number of lines:  216
+
+MODEL INFORMATION
+----------------------------------------------------------------------
+Model path:       ../tibetan_model_tokenised_allchars.pt
+Training source:  train_source-tok.txt
+Training target:  train_target-tok.txt
+Training epochs:  15
+Batch size:       128
+Architecture:     d_model=512
+Vocabulary:       src=303, tgt=303
+
+PARAMETERS
+----------------------------------------------------------------------
+Beam width:       5
+Length penalty:   0.6
+
+PERFORMANCE
+----------------------------------------------------------------------
+Total time:       150.90s (2.51m)
+Speed:            1.43 lines/second
+
+======================================================================
+Report generated: 2026-01-10 11:25:44
+======================================================================

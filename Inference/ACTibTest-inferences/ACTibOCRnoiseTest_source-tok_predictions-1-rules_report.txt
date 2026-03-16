@@ -1,0 +1,33 @@
+======================================================================
+TIBETAN TEXT NORMALIZATION - INFERENCE REPORT
+======================================================================
+
+RUN INFORMATION
+----------------------------------------------------------------------
+Date/Time:        2026-01-10 11:22:14
+Mode:             rules
+Device:           cuda
+Random Seed:      42
+
+INPUT/OUTPUT
+----------------------------------------------------------------------
+Input file:       ACTibOCRnoiseTest_source-tok.txt
+Output file:      ACTibOCRnoiseTest_source-tok_predictions-1-rules.txt
+Number of lines:  216
+
+RULES INFORMATION
+----------------------------------------------------------------------
+Dictionary path:  abbreviations.txt
+Abbreviations:    8469
+
+PARAMETERS
+----------------------------------------------------------------------
+
+PERFORMANCE
+----------------------------------------------------------------------
+Total time:       0.14s (0.00m)
+Speed:            1521.01 lines/second
+
+======================================================================
+Report generated: 2026-01-10 11:22:14
+======================================================================

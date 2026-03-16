@@ -1,0 +1,45 @@
+======================================================================
+TIBETAN TEXT NORMALIZATION - INFERENCE REPORT
+======================================================================
+
+RUN INFORMATION
+----------------------------------------------------------------------
+Date/Time:        2026-01-09 22:03:52
+Mode:             rules+neural
+Device:           cuda
+Random Seed:      42
+
+INPUT/OUTPUT
+----------------------------------------------------------------------
+Input file:       GoldTest_source.txt
+Output file:      GoldTest_predictions-6-rules+neural.txt
+Number of lines:  217
+
+MODEL INFORMATION
+----------------------------------------------------------------------
+Model path:       ../tibetan_model_nontokenized_allchars.pt
+Training source:  train_source.txt
+Training target:  train_target.txt
+Training epochs:  15
+Batch size:       128
+Architecture:     d_model=512
+Vocabulary:       src=303, tgt=303
+
+RULES INFORMATION
+----------------------------------------------------------------------
+Dictionary path:  abbreviations.txt
+Abbreviations:    8469
+
+PARAMETERS
+----------------------------------------------------------------------
+Beam width:       5
+Length penalty:   0.6
+
+PERFORMANCE
+----------------------------------------------------------------------
+Total time:       154.24s (2.57m)
+Speed:            1.41 lines/second
+
+======================================================================
+Report generated: 2026-01-09 22:06:27
+======================================================================
