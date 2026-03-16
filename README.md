@@ -26,7 +26,7 @@ To test the effect of tokenisation, we prepared both tokenised and non-tokenised
 python3 botokenise_src-tgt.py
 ```
 
-The full ReadMe of this script can be found in [Data_Preparation/botokenise_src-tgt_ReadMe]().
+The full ReadMe of this script can be found in [Data_Preparation/botokenise_src-tgt_ReadMe](https://github.com/pagantibet/normalisation/blob/main/Data_Preparation/botokenise_ReadMe.md).
 
 ## Creating lines & cleaning text
 
@@ -36,7 +36,7 @@ Since Normalisation is in essence a sequence-2-sequence task that ideally requir
 python3 createTiblines.py <input_file> <output_file> [options]
 ```
 
-The full ReadMe of this script can be found in [Data_Augmentation/createTiblines_ReadMe]().
+The full ReadMe of this script can be found in [Data_Augmentation/createTiblines_ReadMe](https://github.com/pagantibet/normalisation/blob/main/Data_Preparation/createTiblines_ReadMe.md).
 
 # Data Augmentation
 
@@ -50,7 +50,7 @@ We developed a custom noise injection script to simulate naturally-occurring scr
 python3 Tibrandomnoiseaugmentation.py my_corpus.txt
 ```
 
-The full ReadMe of this script can be found in [Data_Augmentation/Tibrandomnoiseaugmentation_ReadMe]().
+The full ReadMe of this script can be found in [Data_Augmentation/Tibrandomnoiseaugmentation_ReadMe](https://github.com/pagantibet/normalisation/blob/main/Data_Augmentation/Tibrandomnoiseaugmentation_ReadMe.md).
 
 ## OCR-based Noise Simulation
 
@@ -60,7 +60,7 @@ Similar to the random-noise insertion, to model errors introduced during the OCR
 python3 nlpaugtib.py --input <input_file.txt> --type <segmented|nonsegmented> [--aug_prob FLOAT]
 ```
 
-The full ReadMe of this script can be found in [Data_Augmentation/nlpaugtib_ReadMe]().
+The full ReadMe of this script can be found in [Data_Augmentation/nlpaugtib_ReadMe](https://github.com/pagantibet/normalisation/blob/main/Data_Augmentation/nlpaugtib_ReadMe.py).
 
 ## Rule-Based Diplomatic Transformations
 
@@ -70,9 +70,17 @@ For small Gold datasets, we recommend implementing a more-targeted rule-based au
 python3 tibrule_augmentation.py input.txt --char-ratio 0.1 --syllable-ratio 0.05
 ```
 
-The full ReadMe of this script can be found in [Data_Augmentation/tibrule_augmentation_ReadMe]().
+The full ReadMe of this script can be found in [Data_Augmentation/tibrule_augmentation_ReadMe](https://github.com/pagantibet/normalisation/blob/main/Data_Augmentation/tibrule-augmentation_ReadMe.md).
 
 ## Dictionary-based Augmentation
+
+We finally introduce a dictionary-based data augmentation method, adding abbreviation dictionary entries to random lines to help the model recognise and learn these. It can be applied to tokenised (default) or non-tokenised text:
+
+```
+python3 dictionary-augmentation.py input.txt abbreviation-dictionary.txt
+```
+
+The full ReadMe of this script can be found in [Data_Augmentation/dictionaryaugmentation_ReadMe](https://github.com/pagantibet/normalisation/blob/main/Data_Augmentation/dictionaryaugmentation_ReadMe.md).
 
 # Model Architecture
 
