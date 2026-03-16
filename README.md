@@ -33,12 +33,28 @@ The full ReadMe of this script can be found in [Data_Preparation/botokenise_src-
 Since Normalisation is in essence a sequence-2-sequence task that ideally requires some context, manuscript lines were chosen as sequence units since this is how they appear in the manually-normalised 'Gold' data. Since the ACTib does not contain linebreaks and generally contains some non-Tibetan materials (e.g. page numbers) that should be cleaned before Normalisation, cleaning and artificial linebreaks of reasonably-varying lengths can be created in the following way:
 
 ```
-python3 createTiblines.py
+python3 createTiblines.py <input_file> <output_file> [options]
 ```
 
 The full ReadMe of this script can be found in [Data_Augmentation/createTiblines_ReadMe]().
 
 # Data Augmentation
+
+To solve the issue of data scarcity, we offer four data augmentation methods: random noise injection, OCR-based Noise Simulation, Rule-Based Diplomatic Transformations and Dictionary-based Augmentation.
+
+## Random noise injection
+
+We developed a custom noise injection script to simulate naturally-occurring scribal variations in diplomatic texts, following Huang et al’s (2023) random noise formula. The noise injection follows a probabilistic model calibrated to reflect realistic manuscript variation frequencies, including character substitutions, diacritic variations, and orthographic inconsistencies common in Classical Tibetan documents.
+
+```
+python3 Tibrandomnoiseaugmentation.py my_corpus.txt
+```
+
+## OCR-based Noise Simulation
+
+## Rule-Based Diplomatic Transformations
+
+## Dictionary-based Augmentation
 
 # Model Architecture
 
