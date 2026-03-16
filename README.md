@@ -50,9 +50,27 @@ We developed a custom noise injection script to simulate naturally-occurring scr
 python3 Tibrandomnoiseaugmentation.py my_corpus.txt
 ```
 
+The full ReadMe of this script can be found in [Data_Augmentation/Tibrandomnoiseaugmentation_ReadMe]().
+
 ## OCR-based Noise Simulation
 
+Similar to the random-noise insertion, to model errors introduced during the OCR of Tibetan manuscripts, we employed the [nlpaug python library](github.com/makcedward/nlpaug) to generate OCR-realistic noise patterns specifically for Tibetan texts:
+
+```
+python3 nlpaugtib.py --input <input_file.txt> --type <segmented|nonsegmented> [--aug_prob FLOAT]
+```
+
+The full ReadMe of this script can be found in [Data_Augmentation/nlpaugtib_ReadMe]().
+
 ## Rule-Based Diplomatic Transformations
+
+For small Gold datasets, we recommend implementing a more-targeted rule-based augmentation strategy using a custom script to generate additional diplomatic variants from normalised text. This script applied rule-based character replacements reflecting common scribal conventions and variations often found in historical Tibetan manuscripts. The script applies these transformations stochastically, with adjustable ratios.
+
+```
+python3 tibrule_augmentation.py input.txt --char-ratio 0.1 --syllable-ratio 0.05
+```
+
+The full ReadMe of this script can be found in [Data_Augmentation/tibrule_augmentation_ReadMe]().
 
 ## Dictionary-based Augmentation
 
