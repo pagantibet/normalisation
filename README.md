@@ -82,9 +82,23 @@ python3 dictionary-augmentation.py input.txt abbreviation-dictionary.txt
 
 The full ReadMe of this script can be found in [Data_Augmentation/dictionaryaugmentation_ReadMe](https://github.com/pagantibet/normalisation/blob/main/Data_Augmentation/dictionaryaugmentation_ReadMe.md).
 
-# Model Architecture
+# Model Architecture & Training
 
-The Seq-2-Seq model has a character-based encoder-decoder transformer architecture with 4 layers and 8 attention heads, using the Adam optimiser (lr = 0.0005, β1 = 0.9, β2 = 0.997) and 0.1 label smoothing. The models were trained on an RTX ADA 6000 GPU, for 5-6 hours each (tokenised and non-tokenised, including beam search evaluation), implemented in PyTorch - full parameter settings can be found in the Appendix of Meelen & Griffiths (2026).
+## Seq-2-Seq neural encoder-decoder transformer
+
+The Seq-2-Seq model has a character-based encoder-decoder transformer architecture with 4 layers and 8 attention heads, using the Adam optimiser (lr = 0.0005, β1 = 0.9, β2 = 0.997) and 0.1 label smoothing. The models were trained on an RTX ADA 6000 GPU, for 5-6 hours each (tokenised and non-tokenised, including beam search evaluation), implemented in PyTorch - full parameter settings can be found in the Appendix of Meelen & Griffiths (2026). To train a similar Seq-2-Seq model:
+
+```
+sbatch tibtrain.sh
+```
+
+```
+python3 tibtrainencdecoder_witheval.py
+```
+
+The full ReadMe of this script can be found in [Training/tibtrainencdecoder_witheval_ReadMe](https://github.com/pagantibet/normalisation/blob/main/Training/tibtrainencdecoder_witheval_ReadMe.md).
+
+## KenLM N-gram model for ranking
 
 The character-based tokenised and non-tokenised 5-gram KenLMs for ranking S2S inferences were trained in <5 minutes using Google Colab (host a290405c6e16 using Linux 6.6.105+) on the 8m-line split of the ACTib (pruning thresholds: 0 1 1 2 2; with modified Kneser-Ney discount values) - full parameter settings can be found in the Appendix of Meelen & Griffiths (2026).
 
