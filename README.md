@@ -90,6 +90,30 @@ The character-based tokenised and non-tokenised 5-gram KenLMs for ranking S2S in
 
 All models are available open access on the [PaganTibet Huggingface](https://huggingface.co/pagantibet).
 
+# Inference
+
+To normalise Tibetan text, we make 6 different inference modes available:
+
+1. rule-based only (i.e. only using the replacement rules from the Abbreviation dictionary)
+2. neural only (i.e. only using the Seq-2-Seq model)
+3. neural+lm (the Seq-2-Seq model with KenLM ranking)
+4. neural+lm+rules (the Seq-2-Seq model with KenLM ranking and rule-based replacements as postprocessing)
+5. rules+neural+lm (the Seq-2-Seq model with KenLM ranking and rule-based replacements as preprocessing)
+6. rules+neural (the Seq-2-Seq model and rule-based replacements as preprocessing)
+
+Note that modes without rule-based pre- and/or postprocessing are likely to yield poorer results for challenging corpora like the PaganTibet ones. For more standard Buddhist texts, neural Seq-2-Seq models only perform reasonably well for non-tokenised text. For further details and full results, see Meelen & Griffiths (2026).
+
+The flexible inference script can be run using slurm on GPU clusters as well or directly using python:
+
+```
+sbatch tibetan-inference-flexible.sh 
+```
+```
+python3 tibetan-inference-flexible.py
+```
+
+The full ReadMe of this script can be found in [Inference/tibetan-inference-flexible_ReadMe](https://github.com/pagantibet/normalisation/blob/main/Inference/tibetan-inference-flexible_ReadMe.md).
+
 # Evaluations
 
-# Inference
+
