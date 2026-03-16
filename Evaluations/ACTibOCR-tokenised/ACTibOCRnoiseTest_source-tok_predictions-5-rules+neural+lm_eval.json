@@ -1,0 +1,24 @@
+{
+  "evaluation_mode": "predictions",
+  "test_src": "inference/ACTibOCRnoiseTest_source-tok.txt",
+  "test_tgt": "inference/ACTibOCRnoiseTest_target-tok.txt",
+  "samples_evaluated": 216,
+  "evaluation_time_seconds": 0.28948497772216797,
+  "metrics": {
+    "character_error_rate": 0.5537642110146492,
+    "precision": 0.5755241762943946,
+    "recall": 0.5323687219632334,
+    "f1_score": 0.5531059377213223,
+    "correcting_recall": 0.33944522802068644,
+    "correcting_precision": 0.15227784026996624,
+    "total_errors": 6381,
+    "correctly_corrected": 2166,
+    "identified_errors": 14224
+  },
+  "predictions_file": "inference/ACTibOCRnoiseTest_source-tok_predictions-5-rules+neural+lm.txt",
+  "inference_method": "rules+neural+lm",
+  "uses_neural_model": true,
+  "uses_kenlm": true,
+  "uses_preprocessing": false,
+  "uses_postprocessing": false
+}
