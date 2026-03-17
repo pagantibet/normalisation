@@ -38,7 +38,7 @@ Datasets and models can be found on the [PaganTibet Huggingface](https://hugging
 
 ## Tokenisation
 
-To test the effect of tokenisation, we prepared both tokenised and non-tokenised versions of each dataset using a customised version of the [Botok Tibetan tokeniser](www.github.com/OpenPecha/botok). Note that our results show tokenisation is best left until after Normalisation in the pipeline. To tokenise source and target data:
+To test the effect of tokenisation, we prepared both tokenised and non-tokenised versions of each dataset using a customised version of the [Botok Tibetan tokeniser](https://www.github.com/OpenPecha/botok). Note that our results show tokenisation is best left until after Normalisation in the pipeline. To tokenise source and target data:
 
 ```
 python3 botokenise_src-tgt.py
@@ -72,13 +72,13 @@ The full ReadMe of this script can be found in [Data_Augmentation/Tibrandomnoise
 
 ## OCR-based Noise Simulation
 
-Similar to the random-noise insertion, to model errors introduced during the OCR of Tibetan manuscripts, we employed the [nlpaug python library](github.com/makcedward/nlpaug) to generate OCR-realistic noise patterns specifically for Tibetan texts:
+Similar to the random-noise insertion, to model errors introduced during the OCR of Tibetan manuscripts, we employed the [nlpaug python library](https://github.com/makcedward/nlpaug) to generate OCR-realistic noise patterns specifically for Tibetan texts:
 
 ```
 python3 nlpaugtib.py --input <input_file.txt> --type <segmented|nonsegmented> [--aug_prob FLOAT]
 ```
 
-The full ReadMe of this script can be found in [Data_Augmentation/nlpaugtib_ReadMe](https://github.com/pagantibet/normalisation/blob/main/Data_Augmentation/nlpaugtib_ReadMe.py).
+The full ReadMe of this script can be found in [Data_Augmentation/nlpaugtib_ReadMe](https://github.com/pagantibet/normalisation/blob/main/Data_Augmentation/nlpaugtib_ReadMe.md).
 
 ## Rule-Based Diplomatic Transformations
 
@@ -98,7 +98,7 @@ We finally introduce a dictionary-based data augmentation method, adding abbrevi
 python3 dictionary-augmentation.py input.txt abbreviation-dictionary.txt
 ```
 
-The full ReadMe of this script can be found in [Data_Augmentation/dictionaryaugmentation_ReadMe](https://github.com/pagantibet/normalisation/blob/main/Data_Augmentation/dictionaryaugmentation_ReadMe.md).
+The full ReadMe of this script can be found in [Data_Augmentation/dictionaryaugmentation_ReadMe](https://github.com/pagantibet/normalisation/blob/main/Data_Augmentation/dictionaryaugmentation-ReadMe.md).
 
 # Model Architecture & Training
 
@@ -144,7 +144,7 @@ sbatch tibetan-inference-flexible.sh
 python3 tibetan-inference-flexible.py
 ```
 
-The full ReadMe of this script can be found in [Inference/tibetan-inference-flexible_ReadMe](https://github.com/pagantibet/normalisation/blob/main/Inference/tibetan-inference-flexible_ReadMe.md).
+The full ReadMe of this script can be found in [Inference/tibetan-inference-flexible_ReadMe](https://github.com/pagantibet/normalisation/blob/main/Inference/FlexibleInference_ReadMe.md).
 
 # Evaluations
 
@@ -158,7 +158,7 @@ sbatch evaluate-model.sh
 python3 evaluate_model.py
 ```
 
-The full ReadMe of this script can be found in [Evaluations/evaluate_model_ReadMe](https://github.com/pagantibet/normalisation/blob/main/Evaluations/evaluate_model_ReadMe.md).
+The full ReadMe of this script can be found in [Evaluations/evaluate_model_ReadMe](https://github.com/pagantibet/normalisation/blob/main/Evaluations/Evaluation_ReadMe.md).
 
 Full details of evaluation results including confidence intervals and example predictions reported in Meelen & Griffiths (2026) can be found in the [tokenised](https://github.com/pagantibet/normalisation/tree/main/Evaluations/Gold-tokenised-CI) and [non-tokenised](https://github.com/pagantibet/normalisation/tree/main/Evaluations/Gold-nontokenised-CI) Evaluation directories.
 
