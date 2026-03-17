@@ -184,7 +184,7 @@ Replacement ratio: 20%, Syllable operations: 3% (configurable)
 
 ## License
 
-This script is provided as-is for research and educational purposes.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/pagantibet/normalisation/blob/main/LICENSE) file for details.
 
 ---
 
