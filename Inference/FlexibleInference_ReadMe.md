@@ -731,7 +731,7 @@ If you encounter issues:
 
 ## 📄 License
 
-[Your License Here]
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/pagantibet/normalisation/blob/main/LICENSE) file for details.
 
 ## 🙏 Citation
 
