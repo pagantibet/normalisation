@@ -80,3 +80,9 @@ Empty lines are passed through unchanged.
 - Each run produces different results due to random sampling; call `random.seed()` before running if you need reproducible output.
 - The output file is UTF-8 encoded.
 - `aug_prob` of `0.05` means roughly 1 in 20 adjacent pairs will be swapped — a light perturbation. Increase it for more aggressive augmentation.
+
+---
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/pagantibet/normalisation/blob/main/LICENSE) file for details.
