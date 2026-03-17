@@ -211,7 +211,7 @@ The script includes comprehensive error handling for:
 
 ## License
 
-This script is provided as-is for processing Tibetan text files.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/pagantibet/normalisation/blob/main/LICENSE) file for details.
 
 ## Support
 
