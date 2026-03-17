@@ -120,3 +120,7 @@ You can supply a custom character list via the `noise_chars` argument to `insert
 - Empty lines in the input file are preserved unchanged.
 - The output file is UTF-8 encoded.
 - Each run produces different results due to random sampling; set `random.seed()` before calling if you need reproducibility.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/pagantibet/normalisation/blob/main/LICENSE) file for details.
