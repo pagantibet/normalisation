@@ -213,7 +213,7 @@ The script is designed to use minimal memory. If you encounter memory issues, it
 
 ## License
 
-This script is provided as-is for processing Tibetan text with the botok tokeniser.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/pagantibet/normalisation/blob/main/LICENSE) file for details.
 
 ## Credits
 
