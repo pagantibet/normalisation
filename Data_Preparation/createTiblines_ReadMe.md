@@ -4,15 +4,27 @@ A Python script that reformats Tibetan text files to have lines between 60 and 1
 
 **Optimized for large files** - processes ~5-6 MB/second on typical hardware.
 
+This script was developed as part of [PaganTibet](https://www.pagantibet.com/)'s Normalisation workflow. For more information, see our [Normalisation README](https://github.com/pagantibet/normalisation/tree/main?tab=readme-ov-file).
+
 ## Features
 
 - **Two modes**: Segmented and unsegmented text
 - **Smart text cleaning**: Removes non-Tibetan characters automatically
-- **Punctuation normalization**: Removes spaces between Tibetan punctuation, adds space after །།
+- **Punctuation normalisation**: Removes spaces between Tibetan punctuation, adds space after །། (double shad)
 - **Natural break points**: For unsegmented text, breaks at ། (shad), ་ (tsheg), or spaces
 - **Never splits indivisible units**: Respects །། as atomic, preserves syllable integrity
 - **Progress reporting**: Shows progress for large files
 - **Flexible output**: Quiet mode for automation, verbose mode for debugging
+
+## Requirements
+
+- Python 3.x
+- No external dependencies required
+- Sufficient RAM for your file size (allow ~2x file size for processing)
+
+## Character Encoding
+
+The script uses UTF-8 encoding and works with the full Tibetan Unicode range (U+0F00-U+0FFF).
 
 ## Performance
 
@@ -92,7 +104,7 @@ Clean Tibetan text with optimized line lengths:
 ### Text Cleaning (Both Modes)
 
 1. **Removes non-Tibetan characters**: Latin letters, numbers, special markers
-2. **Normalizes punctuation spacing**:
+2. **Normalises punctuation spacing**:
    - Removes spaces between punctuation marks (except tsheg ་)
    - Adds space after །། when followed by Tibetan content
    - Preserves tsheg ་ as part of syllables
@@ -237,12 +249,6 @@ Output saved to:    output.txt
 ============================================================
 ```
 
-## Requirements
+## License
 
-- Python 3.x
-- No external dependencies required
-- Sufficient RAM for your file size (allow ~2x file size for processing)
-
-## Character Encoding
-
-The script uses UTF-8 encoding and works with the full Tibetan Unicode range (U+0F00-U+0FFF).
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/pagantibet/normalisation/blob/main/LICENSE) file for details.
