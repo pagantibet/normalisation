@@ -1,15 +1,17 @@
-# Botok Tokenizer Script
+# Botok Tokeniser Script
 
-A Python script for tokenizing Tibetan text files using the botok tokenizer, optimized for large files with progress reporting.
+A Python script for tokenising Tibetan text (.txt) files using the [botok tokeniser](https://github.com/OpenPecha/botok), optimised for large files with progress reporting.
+
+This script was developed as part of [PaganTibet](https://www.pagantibet.com/)'s Normalisation workflow. For more information, see our [Normalisation README](https://github.com/pagantibet/normalisation/tree/main?tab=readme-ov-file).
 
 ## Overview
 
-This script tokenizes parallel text files (source and target) while preserving line structure. It's designed to handle very large files efficiently (tested with multi-GB files) and includes a fix for botok's incorrect handling of certain Tibetan marks.
+This script tokenises parallel text files (source and target) while preserving line structure. It's designed to handle very large files efficiently (tested with multi-GB files) and includes a fix for [botok's incorrect handling of certain Tibetan marks](#botok-punctuation-fix).
 
 ## Features
 
 - **Line-by-line processing** - Preserves the original line structure
-- **Large file optimization** - Uses 8MB buffers for efficient I/O
+- **Large file optimisation** - Uses 8MB buffers for efficient I/O
 - **Progress reporting** - Shows real-time progress, speed, and percentage complete
 - **Botok punctuation fix** - Corrects botok's treatment of ༷ (U+0F37) and ༹ (U+0F39) as punctuation marks
 - **Dual file processing** - Handles both source and target files in one run
@@ -17,11 +19,11 @@ This script tokenizes parallel text files (source and target) while preserving l
 ## Requirements
 
 - Python 3.6 or higher
-- botok tokenizer
+- botok tokeniser
 
 ## Installation
 
-Install the botok tokenizer:
+Install the botok tokeniser:
 
 ```bash
 pip install botok --break-system-packages
@@ -49,7 +51,7 @@ python tokenize_files.py
 
 ### Process a single file
 
-To tokenize just one file:
+To tokenise just one file:
 
 ```bash
 python tokenize_files.py my_file.txt
@@ -77,13 +79,13 @@ python tokenize_files.py --help
 - Or any custom file name when using single-file mode
 
 **Output files:**
-- `train_source-tok.txt` - Tokenized source text
-- `train_target-tok.txt` - Tokenized target text
+- `train_source-tok.txt` - Tokenised source text
+- `train_target-tok.txt` - Tokenised target text
 - `train_source-tok-errors.txt` - Error log (only created if errors occur)
 - `train_target-tok-errors.txt` - Error log (only created if errors occur)
 
 **Error log format:**
-The error log file contains detailed information about each line that failed to tokenize:
+The error log file contains detailed information about each line that failed to tokenise:
 ```
 Line 5412345:
 Error: can't set attribute 'syls'
@@ -141,7 +143,7 @@ Tokenization complete!
 
 ## Performance
 
-The script is optimized for large files:
+The script is optimised for large files:
 - **Memory efficient** - Only one line is kept in memory at a time
 - **Fast I/O** - Uses large (8MB) read/write buffers
 - **Expected speed** - 1,000-5,000 lines per second (depending on system and line length)
@@ -155,7 +157,7 @@ The script includes a post-processing fix for two Tibetan characters that botok 
 - **༷** (U+0F37) - mark nyi zla
 - **༹** (U+0F39) - tsa rtags
 
-These are actually marks that should remain attached to surrounding text, not standalone punctuation. The script removes any word breaks (spaces) around these characters after tokenization.
+These are actually marks that should remain attached to surrounding text, not standalone punctuation. The script removes any word breaks (spaces) around these characters after tokenisation.
 
 ## Technical Details
 
@@ -178,7 +180,7 @@ All files are read and written using UTF-8 encoding.
 ## Troubleshooting
 
 ### "botok is not installed"
-Install botok using the command in the Installation section above.
+Install botok using the command in the [Installation](#installation) section above.
 
 ### "File not found"
 Ensure your input files are named exactly `train_source.txt` and `train_target.txt` and are in the same directory as the script.
@@ -188,7 +190,7 @@ The script automatically suppresses these warnings. They occur when botok encoun
 
 ### Botok errors ("can't set attribute 'syls'" or similar)
 The script now handles these gracefully:
-- Lines that cause tokenization errors are written to the output unchanged
+- Lines that cause tokenisation errors are written to the output unchanged
 - All errors are logged to a separate error file (e.g., `filename-tok-errors.txt`)
 - The error log contains:
   - Line number where the error occurred
@@ -199,7 +201,7 @@ The script now handles these gracefully:
 - If no errors occur, no error log file is created
 
 This allows you to:
-- Process large files completely even if some lines cause issues
+- Process large files completely, even if some lines cause issues
 - Easily identify and review all problematic lines
 - Fix or investigate specific errors after processing
 
@@ -211,9 +213,9 @@ The script is designed to use minimal memory. If you encounter memory issues, it
 
 ## License
 
-This script is provided as-is for processing Tibetan text with the botok tokenizer.
+This script is provided as-is for processing Tibetan text with the botok tokeniser.
 
 ## Credits
 
-- Uses the [botok](https://github.com/OpenPecha/Botok) tokenizer by OpenPecha
+- Uses the [botok](https://github.com/OpenPecha/Botok) tokeniser by OpenPecha
 - Includes fix for Tibetan mark handling
