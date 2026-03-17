@@ -1,6 +1,6 @@
 # Normalisation
 
-This repo contains the code for the Normalisation part of PaganTibet described in Meelen & Griffiths (2026). Please cite the repo and the following article when using any part of this code:
+This repo contains the code for the Normalisation part of [PaganTibet](https://www.pagantibet.com/) described in Meelen & Griffiths (2026). Please cite the repo and the following article when using any part of this code:
 
 Meelen, M. & Griffiths, R.M. (2026) 'Historical Tibetan Normalisation: rule-based vs neural & n-gram LM methods for extremely low-resource languages' in _Proceedings of the AI4CHIEF conference_, Springer.
 
@@ -48,7 +48,7 @@ The full ReadMe of this script can be found in [Data_Preparation/botokenise_src-
 
 ## Creating lines & cleaning text
 
-Since Normalisation is in essence a sequence-2-sequence task that ideally requires some context, manuscript lines were chosen as sequence units since this is how they appear in the manually-normalised 'Gold' data. Since the ACTib does not contain linebreaks and generally contains some non-Tibetan materials (e.g. page numbers) that should be cleaned before Normalisation, cleaning and artificial linebreaks of reasonably-varying lengths can be created in the following way:
+Since Normalisation is in essence a sequence-2-sequence task that ideally requires some context, manuscript lines were chosen as sequence units since this is how they appear in the manually-normalised 'Gold-standard' data. Since the ACTib does not contain linebreaks and generally contains some non-Tibetan materials (e.g. page numbers) that should be cleaned before Normalisation, cleaning and artificial linebreaks of reasonably-varying lengths can be created in the following way:
 
 ```
 python3 createTiblines.py <input_file> <output_file> [options]
@@ -58,11 +58,11 @@ The full ReadMe of this script can be found in [Data_Augmentation/createTiblines
 
 # Data Augmentation
 
-To solve the issue of data scarcity, we offer four data augmentation methods: random noise injection, OCR-based Noise Simulation, Rule-Based Diplomatic Transformations and Dictionary-based Augmentation.
+To solve the issue of data scarcity, we offer four data augmentation methods: Random noise injection, OCR-based Noise Simulation, Rule-Based Diplomatic Transformations, and Dictionary-based Augmentation.
 
 ## Random noise injection
 
-We developed a custom noise injection script to simulate naturally-occurring scribal variations in diplomatic texts, following Huang et al's (2023) random noise formula. The noise injection follows a probabilistic model calibrated to reflect realistic manuscript variation frequencies, including character substitutions, diacritic variations, and orthographic inconsistencies common in Classical Tibetan documents.
+We developed a custom noise injection script to simulate naturally-occurring scribal variations in diplomatic texts, following [Huang et al](https://www.isca-archive.org/sigul_2023/huang23_sigul.html)'s (2023) random noise formula. The noise injection follows a probabilistic model calibrated to reflect realistic manuscript variation frequencies, including character substitutions, diacritic variations, and orthographic inconsistencies common in Classical Tibetan documents:
 
 ```
 python3 Tibrandomnoiseaugmentation.py my_corpus.txt
@@ -82,7 +82,7 @@ The full ReadMe of this script can be found in [Data_Augmentation/nlpaugtib_Read
 
 ## Rule-Based Diplomatic Transformations
 
-For small Gold datasets, we recommend implementing a more-targeted rule-based augmentation strategy using a custom script to generate additional diplomatic variants from normalised text. This script applied rule-based character replacements reflecting common scribal conventions and variations often found in historical Tibetan manuscripts. The script applies these transformations stochastically, with adjustable ratios.
+For small 'Gold-standard' datasets, we recommend implementing a more-targeted rule-based augmentation strategy using a custom script to generate additional diplomatic variants from normalised text. This script applied rule-based character replacements reflecting common scribal conventions and variations often found in historical Tibetan manuscripts. The script applies these transformations stochastically, with adjustable ratios:
 
 ```
 python3 tibrule_augmentation.py input.txt --char-ratio 0.1 --syllable-ratio 0.05
@@ -148,7 +148,7 @@ The full ReadMe of this script can be found in [Inference/tibetan-inference-flex
 
 # Evaluations
 
-The Seq-2-Seq training script has a built-in evaluation model using beam search. All six inference modes can also be evaluated separately using the evaluation script, which outputs standard measures like CER, precision, recall and F1-scores, but also - following Huang et al (2021) - Correction Precision and Recall to get a more accurate picture of how effectively Normalisation was done. For very small datasets, bootstrapping over 1000 iterations to gauge Confidence Intervals (CIs) is recommended. It can be run on prediction files (i.e. the output of the inference scrips) a cluster or directly using python.
+The Seq-2-Seq training script has a built-in evaluation model using beam search. All six inference modes can also be evaluated separately using the evaluation script, which outputs standard measures like CER, precision, recall and F1-scores, but also - following [Huang et al (2023)](https://www.isca-archive.org/sigul_2023/huang23_sigul.html) - Correction Precision (CP) and Recall (CR) to get a more accurate picture of how effectively Normalisation was done. For very small datasets, bootstrapping over 1000 iterations to gauge Confidence Intervals (CIs) is recommended. It can be run on prediction files (i.e. the output of the inference scrips) a cluster or directly using python:
 
 ```
 sbatch evaluate-model.sh
@@ -162,3 +162,25 @@ The full ReadMe of this script can be found in [Evaluations/evaluate_model_ReadM
 
 Full details of evaluation results including confidence intervals and example predictions reported in Meelen & Griffiths (2026) can be found in the [tokenised](https://github.com/pagantibet/normalisation/tree/main/Evaluations/Gold-tokenised-CI) and [non-tokenised](https://github.com/pagantibet/normalisation/tree/main/Evaluations/Gold-nontokenised-CI) Evaluation directories.
 
+---
+
+<table>
+  <tr>
+    <td width="47%">
+      <sub>This work was partially funded by the European Union (ERC, Pagan Tibet, 101097364). 
+      Views and opinions expressed are however those of the author(s) only and do not 
+      necessarily reflect those of the European Union or the European Research Council 
+      Executive Agency. Neither the European Union nor the granting authority can be 
+      held responsible for them.</sub>
+    </td>
+    <td width="53%" align="center" valign="middle">
+      <img src="https://erc.europa.eu/sites/default/files/2025-08/LOGO_ERC-FLAG_EU.png" alt="ERC" height="45">
+      &nbsp;&nbsp;
+      <img src="https://www.crcao.fr/assets/images/logo-crcao.png" alt="EU" height="45">
+      &nbsp;&nbsp;
+      <img src="https://www.campus-condorcet.fr/medias/photo/bandeau-ephe-coul-psl-web_1564755250724-png?ID_FICHE=190" alt="EU" height="40">
+      &nbsp;&nbsp;
+      <img src="https://www.cam.ac.uk/sites/default/files/secondary-logo-stacked.png" alt="EU" height="50">
+    </td>
+  </tr>
+</table>
