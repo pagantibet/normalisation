@@ -214,3 +214,9 @@ Where:
 - Source and target files must have the same number of lines — the script will exit with a clear error message if not.
 - Sequences are truncated to a maximum length of 100 characters.
 - The best model (lowest validation loss) is reloaded for final test evaluation.
+
+---
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/pagantibet/normalisation/blob/main/LICENSE) file for details.
