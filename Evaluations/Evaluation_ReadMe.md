@@ -282,3 +282,7 @@ The script calculates:
 - Each line in the predictions file should contain the prediction for the corresponding line in the test source
 - For methods without a neural model, simply omit the `--model` flag and don't use the `--uses_neural_model` flag
 - The script will still extract and display neural model parameters if a model is provided, even in predictions mode
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/pagantibet/normalisation/blob/main/LICENSE) file for details.
