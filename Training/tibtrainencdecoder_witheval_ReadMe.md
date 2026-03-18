@@ -1,16 +1,15 @@
 # Tibetan Text Normalisation — Seq2Seq Transformer Training
 
-A training script for a character-level encoder-decoder Transformer that learns to normalise diplomatic (manuscript-style) Tibetan text into standard Classical Tibetan. Unlike causal language models, this is a traditional seq2seq architecture that trains directly on aligned source–target sentence pairs.
+A training script for a character-level encoder-decoder Transformer that learns to normalise diplomatic Tibetan text into Standard Classical Tibetan. Unlike causal language models, this is a traditional seq2seq architecture that trains directly on aligned source–target sentence pairs.
 
----
+This script was developed as part of [PaganTibet](https://www.pagantibet.com/)'s Normalisation workflow. For more information, see our [Normalisation README](https://github.com/pagantibet/normalisation/tree/main?tab=readme-ov-file).
 
-## Background
+## Overview
 
-The model is trained on paired text files where the source is noisy/diplomatic Tibetan and the target is the normalised form. The character-level vocabulary covers the full Tibetan Unicode block (U+0F00–U+0FFF), ensuring no `<unk>` tokens appear in Tibetan output.
+The model is trained on paired text (.txt) files where the source is noisy/diplomatic Tibetan and the target is the normalised form. The character-level vocabulary covers the full Tibetan Unicode block (U+0F00–U+0FFF), ensuring no `<unk>` tokens appear in Tibetan output.
 
 Evaluation uses both standard metrics (CER, precision, recall, F1) and the SG-specific correction metrics described below.
 
----
 
 ## Requirements
 
@@ -24,7 +23,6 @@ pip install torch numpy
 
 The script is designed to run in a conda environment (e.g. `pagantibenv`).
 
----
 
 ## Input Data Format
 
@@ -37,9 +35,7 @@ train_target.txt    →  normalised Classical Tibetan
 
 Both files must have exactly the same number of lines. The script will exit with a clear error if they do not match.
 
----
-
-## Basic Usage
+## Usage
 
 ```bash
 python3 tibtrainencdecoder_witheval.py \
@@ -55,8 +51,6 @@ python3 tibtrainencdecoder_witheval.py \
     --train_tgt train_target.txt \
     --use_normalized_vocab
 ```
-
----
 
 ## Recommended GPU Configurations
 
@@ -90,7 +84,6 @@ python3 tibtrainencdecoder_witheval.py \
 
 Expected training time on an RTX 4090 with ~1M sentence pairs: approximately 3–4 hours.
 
----
 
 ## All Arguments
 
@@ -140,13 +133,11 @@ Expected training time on an RTX 4090 with ~1M sentence pairs: approximately 3�
 | `--results_file` | JSON results output path | `training_results.json` |
 | `--report_file` | Plain-text report output path | `tibetan_report.txt` |
 
----
 
 ## Data Splits
 
 If no separate validation or test files are provided, the script automatically splits the training data using the `--val_split` and `--test_split` ratios. To disable this and train on the full dataset without a validation set, pass `--no_auto_split`.
 
----
 
 ## Vocabulary
 
@@ -156,7 +147,6 @@ Special tokens: `<pad>` (0), `<sos>` (1), `<eos>` (2), `<unk>` (3).
 
 The vocabulary is sampled from up to 10,000 texts during building for speed on large datasets.
 
----
 
 ## Training Details
 
@@ -165,8 +155,6 @@ The vocabulary is sampled from up to 10,000 texts during building for speed on l
 - **Gradient clipping:** max norm 1.0
 - **Weight initialisation:** Xavier uniform for all parameters with dim > 1
 - **Decoding during training:** fast greedy decode; beam search used only for final test evaluation
-
----
 
 ## Evaluation Metrics
 
@@ -195,7 +183,6 @@ Where:
 - **Etotal** = positions where source ≠ target (total real errors)
 - **Eident** = positions where source ≠ hypothesis (total changes the model made)
 
----
 
 ## Output Files
 
@@ -206,7 +193,6 @@ Where:
 | `tibetan_report.txt` (or `--report_file`) | Plain-text training report with system info, configuration, metrics, and 10 random example predictions |
 | `training_results.json` (or `--results_file`) | Full results in JSON including all metrics, training info, and model config |
 
----
 
 ## Notes
 
@@ -215,7 +201,6 @@ Where:
 - Sequences are truncated to a maximum length of 100 characters.
 - The best model (lowest validation loss) is reloaded for final test evaluation.
 
----
 
 ## License
 
