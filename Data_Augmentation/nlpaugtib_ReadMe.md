@@ -1,4 +1,4 @@
-# Tibetan NLP Data Augmentation — Word & Syllable Swapping
+# Tibetan Text Data Augmentation — Word & Syllable Swapping
 
 A Python script for augmenting Tibetan text (.txt) datasets by randomly swapping adjacent words or syllables. Inspired by the [nlpaug](https://github.com/makcedward/nlpaug) library, it is designed to generate noisy, unnormalised text from clean Classical Tibetan — approximating the kind of variation found in diplomatic (manuscript) sources.
 
