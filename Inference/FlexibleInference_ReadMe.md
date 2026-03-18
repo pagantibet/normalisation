@@ -19,9 +19,9 @@ This was developed as part of [PaganTibet](https://www.pagantibet.com/)'s Normal
 
 ### Neural + LM + Rules (full pipeline - recommended)
 ```bash
-python3 tibetan_inference_with_rules.py \
+python3 tibetan-inference-flexible.py \
     --mode neural+lm+rules \
-    --model_path tibetan_model_6000.pt \
+    --model_path tibetan_model_nontokenized_allchars.pt \
     --kenlm_path model_5gram_char.arpa \
     --lm_backend python \
     --rules_dict abbreviations.txt \
@@ -40,7 +40,7 @@ Output will be automatically saved to `GoldTest_source_prediction.txt`.
 **Speed:** Very fast (~1000+ texts/sec)
 
 ```bash
-python3 tibetan_inference_with_rules.py \
+python3 tibetan-inference-flexible.py \
     --mode rules \
     --rules_dict abbreviations.txt \
     --input_file input.txt
@@ -63,9 +63,9 @@ python3 tibetan_inference_with_rules.py \
 **Speed:** Very fast (~100-200 texts/sec on GPU)
 
 ```bash
-python3 tibetan_inference_with_rules.py \
+python3 tibetan-inference-flexible.py \
     --mode neural \
-    --model_path tibetan_model_6000.pt \
+    --model_path tibetan_model_nontokenized_allchars.pt \
     --input_file input.txt
 ```
 
@@ -77,9 +77,9 @@ python3 tibetan_inference_with_rules.py \
 **Speed:** Very fast (~100-200 texts/sec on GPU)
 
 ```bash
-python3 tibetan_inference_with_rules.py \
+python3 tibetan-inference-flexible.py \
     --mode neural \
-    --model_path tibetan_model_6000.pt \
+    --model_path tibetan_model_nontokenized_allchars.pt \
     --input_file input.txt
 ```
 
@@ -94,9 +94,9 @@ python3 tibetan_inference_with_rules.py \
 **Speed:** Fast (~50-100 texts/sec with KenLM, ~5-20 with Python LM)
 
 ```bash
-python3 tibetan_inference_with_rules.py \
+python3 tibetan-inference-flexible.py \
     --mode neural+lm \
-    --model_path tibetan_model_6000.pt \
+    --model_path tibetan_model_nontokenized_allchars.pt \
     --kenlm_path model_5gram_char.arpa \
     --lm_backend python \
     --input_file input.txt
@@ -114,9 +114,9 @@ python3 tibetan_inference_with_rules.py \
 **Speed:** Fast (~50-100 texts/sec with KenLM, ~5-20 with Python LM)
 
 ```bash
-python3 tibetan_inference_with_rules.py \
+python3 tibetan-inference-flexible.py \
     --mode neural+lm \
-    --model_path tibetan_model_6000.pt \
+    --model_path tibetan_model_nontokenized_allchars.pt \
     --kenlm_path model_5gram_char.arpa \
     --lm_backend python \
     --input_file input.txt
@@ -138,9 +138,9 @@ python3 tibetan_inference_with_rules.py \
 **Speed:** Moderate (~40-80 texts/sec)
 
 ```bash
-python3 tibetan_inference_with_rules.py \
+python3 tibetan-inference-flexible.py \
     --mode neural+lm+rules \
-    --model_path tibetan_model_6000.pt \
+    --model_path tibetan_model_nontokenized_allchars.pt \
     --kenlm_path model_5gram_char.arpa \
     --lm_backend python \
     --rules_dict abbreviations.txt \
@@ -165,9 +165,9 @@ Input → Neural model → KenLM reranking → Rules postprocessing → Output
 **Speed:** Moderate (~40-80 texts/sec)
 
 ```bash
-python3 tibetan_inference_with_rules.py \
+python3 tibetan-inference-flexible.py \
     --mode rules+neural+lm \
-    --model_path tibetan_model_6000.pt \
+    --model_path tibetan_model_nontokenized_allchars.pt \
     --kenlm_path model_5gram_char.arpa \
     --lm_backend python \
     --rules_dict abbreviations.txt \
@@ -192,9 +192,9 @@ Input → Rules preprocessing → Neural model → KenLM reranking → Output
 **Speed:** Fast (~80-150 texts/sec)
 
 ```bash
-python3 tibetan_inference_with_rules.py \
+python3 tibetan-inference-flexible.py \
     --mode rules+neural \
-    --model_path tibetan_model_6000.pt \
+    --model_path tibetan_model_nontokenized_allchars.pt \
     --rules_dict abbreviations.txt \
     --input_file input.txt
 ```
@@ -237,9 +237,9 @@ If you can't install KenLM, the script includes a pure Python ARPA reader. Just 
 
 ### Example 1: Single Text Normalization
 ```bash
-python3 tibetan_inference_with_rules.py \
+python3 tibetan-inference-flexible.py \
     --mode neural \
-    --model_path tibetan_model_6000.pt \
+    --model_path tibetan_model_nontokenized_allchars.pt \
     --text "བོད་ཡིག་གི་སྐད་ཡིག"
 ```
 
@@ -252,9 +252,9 @@ Time: 0.023s
 
 ### Example 2: Batch Processing (Auto Output Filename)
 ```bash
-python3 tibetan_inference_with_rules.py \
+python3 tibetan-inference-flexible.py \
     --mode neural+lm+rules \
-    --model_path tibetan_model_6000.pt \
+    --model_path tibetan_model_nontokenized_allchars.pt \
     --kenlm_path model_5gram_char.arpa \
     --lm_backend python \
     --rules_dict abbreviations.txt \
@@ -265,9 +265,9 @@ Output will be saved to: `test_data_prediction.txt` (automatic!)
 
 ### Example 3: Custom Output Filename
 ```bash
-python3 tibetan_inference_with_rules.py \
+python3 tibetan-inference-flexible.py \
     --mode neural+lm \
-    --model_path tibetan_model_6000.pt \
+    --model_path tibetan_model_nontokenized_allchars.pt \
     --kenlm_path model_5gram_char.arpa \
     --lm_backend python \
     --input_file test_data.txt \
@@ -276,9 +276,9 @@ python3 tibetan_inference_with_rules.py \
 
 ### Example 4: Interactive Mode
 ```bash
-python3 tibetan_inference_with_rules.py \
+python3 tibetan-inference-flexible.py \
     --mode neural \
-    --model_path tibetan_model_6000.pt \
+    --model_path tibetan_model_nontokenized_allchars.pt \
     --interactive
 ```
 
@@ -299,9 +299,9 @@ Exiting...
 ```bash
 # Run all 5 modes on the same data
 for mode in neural neural+lm rules rules+neural neural+lm+rules; do
-    python3 tibetan_inference_with_rules.py \
+    python3 tibetan-inference-flexible.py \
         --mode $mode \
-        --model_path tibetan_model_6000.pt \
+        --model_path tibetan_model_nontokenized_allchars.pt \
         --kenlm_path model_5gram_char.arpa \
         --lm_backend python \
         --rules_dict abbreviations.txt \
@@ -422,9 +422,9 @@ Plain text file, one sentence per line, UTF-8 encoding.
 
 ### Example with All Parameters
 ```bash
-python3 tibetan_inference_with_rules.py \
+python3 tibetan-inference-flexible.py \
     --mode neural+lm+rules \
-    --model_path tibetan_model_6000.pt \
+    --model_path tibetan_model_nontokenized_allchars.pt \
     --kenlm_path model_5gram_char.arpa \
     --lm_backend python \
     --rules_dict abbreviations.txt \
@@ -574,26 +574,26 @@ To systematically compare all modes:
 # compare_modes.sh
 
 INPUT="GoldTest_source.txt"
-MODEL="tibetan_model_6000.pt"
+MODEL="tibetan_model_nontokenized_allchars.pt"
 KENLM="model_5gram_char.arpa"
 RULES="abbreviations.txt"
 
 # Mode 1: Rules only
-python3 tibetan_inference_with_rules.py \
+python3 tibetan-inference-flexible.py \
     --mode rules \
     --rules_dict $RULES \
     --input_file $INPUT \
     --output_file results_rules.txt
 
 # Mode 2: Neural only
-python3 tibetan_inference_with_rules.py \
+python3 tibetan-inference-flexible.py \
     --mode neural \
     --model_path $MODEL \
     --input_file $INPUT \
     --output_file results_neural.txt
 
 # Mode 3: Neural + LM
-python3 tibetan_inference_with_rules.py \
+python3 tibetan-inference-flexible.py \
     --mode neural+lm \
     --model_path $MODEL \
     --kenlm_path $KENLM \
@@ -602,7 +602,7 @@ python3 tibetan_inference_with_rules.py \
     --output_file results_neural_lm.txt
 
 # Mode 4: Neural + LM + Rules
-python3 tibetan_inference_with_rules.py \
+python3 tibetan-inference-flexible.py \
     --mode neural+lm+rules \
     --model_path $MODEL \
     --kenlm_path $KENLM \
@@ -612,7 +612,7 @@ python3 tibetan_inference_with_rules.py \
     --output_file results_neural_lm_rules.txt
 
 # Mode 5: Rules + Neural + LM
-python3 tibetan_inference_with_rules.py \
+python3 tibetan-inference-flexible.py \
     --mode rules+neural+lm \
     --model_path $MODEL \
     --kenlm_path $KENLM \
@@ -622,7 +622,7 @@ python3 tibetan_inference_with_rules.py \
     --output_file results_rules_neural_lm.txt
 
 # Mode 6: Rules + Neural
-python3 tibetan_inference_with_rules.py \
+python3 tibetan-inference-flexible.py \
     --mode rules+neural \
     --model_path $MODEL \
     --rules_dict $RULES \
@@ -677,18 +677,18 @@ Then evaluate with your metrics script.
 
 ```bash
 # 1. Check your model
-python3 -c "import torch; c=torch.load('tibetan_model_6000.pt', map_location='cpu', weights_only=False); print(c['args'])"
+python3 -c "import torch; c=torch.load('tibetan_model_nontokenized_allchars.pt', map_location='cpu', weights_only=False); print(c['args'])"
 
 # 2. Run quick test on single text
-python3 tibetan_inference_with_rules.py \
+python3 tibetan-inference-flexible.py \
     --mode neural \
-    --model_path tibetan_model_6000.pt \
+    --model_path tibetan_model_nontokenized_allchars.pt \
     --text "བོད་ཡིག"
 
 # 3. Run full pipeline on test set
-python3 tibetan_inference_with_rules.py \
+python3 tibetan-inference-flexible.py \
     --mode neural+lm+rules \
-    --model_path tibetan_model_6000.pt \
+    --model_path tibetan_model_nontokenized_allchars.pt \
     --kenlm_path model_5gram_char.arpa \
     --lm_backend python \
     --rules_dict abbreviations.txt \
@@ -701,21 +701,6 @@ python3 evaluate.py \
     --predictions GoldTest_source_prediction.txt \
     --references GoldTest_target.txt
 ```
-
-
-
-##  Additional Files
-
-### Other Scripts Available:
-
-1. **`arpa_lm_python.py`** - Pure Python ARPA reader (must be in same directory)
-2. **`tibetan_inference_flexible.py`** - Older version without rules support
-3. **`tibetan_inference_kenlm.py`** - Original script (neural + KenLM only)
-
-### Recommended: Use `tibetan_inference_with_rules.py`
-It's the most complete and flexible version.
-
-
 
 ## Support
 
