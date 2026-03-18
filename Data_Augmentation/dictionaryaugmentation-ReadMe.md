@@ -1,4 +1,4 @@
-# Tibetan Dictionary Augmentation
+# Tibetan Text Data Augmentation — Dictionary Augmentation
 
 A Python script for processing Tibetan text (.txt) files by adding abbreviation expansions from a dictionary to randomly selected lines.
 
