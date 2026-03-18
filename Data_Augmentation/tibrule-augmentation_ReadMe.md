@@ -1,31 +1,31 @@
-# Tibetan Text Data Augmentation
+# Tibetan Text Data Augmentation - Rule-based Diplomatic Transformations
 
-## Overview
+A Python script for performing rule-based data augmentation on Tibetan text (.txt) files, designed specifically for improving machine translation and NLP models through controlled noise injection.
 
-This script performs rule-based data augmentation on Tibetan text files, designed specifically for improving machine translation and NLP models through controlled noise injection.
+This script was developed as part of [PaganTibet](https://www.pagantibet.com/)'s Normalisation workflow. For more information, see our [Normalisation README](https://github.com/pagantibet/normalisation/tree/main?tab=readme-ov-file).
 
 ## Key Features
 
-### 1. Bidirectional Character Replacements (All work both ways!)
+### 1. Bidirectional Character Replacements
 
-| Original | Replacement | Type | Notes |
-|----------|-------------|------|-------|
-| འ ↔ བ | Vowel carrier / consonant confusion | Common OCR/input error |
-| ས ↔ པ | Consonant confusion | Similar shapes |
-| ེ ↔ ི | Vowel marker confusion | Very common |
-| ལ ↔ ཡ | Semi-vowel/consonant | Phonetically similar |
-| ཕ ↔ མ | Aspirated/nasal consonants | |
-| ག ↔ ང | Stop/nasal consonants | |
-| ཀ ↔ ག | Aspirated/plain stops | |
-| ཅ ↔ ཆ | Aspirated variants | |
-| ན ↔ མ | Nasal consonants | |
-| ཐ ↔ ད | Aspirated/plain stops | |
-| ཐ ↔ ཏ | Aspirated variants | |
-| ཕ ↔ པ | Aspirated/plain stops | |
-| ཤ ↔ ས | Sibilant variants | |
-| ཞ ↔ ཟ | Voiced variants | |
-| ྱ ↔ ྲ | Subjoined letters | ya-btags/ra-btags |
-| ྀ ↔ ི | Reverse/normal gigu | Unicode variants |
+| Original | Replacement | 
+|----------|-------------|
+| འ ↔ བ | Vowel carrier / consonant confusion | 
+| ས ↔ པ | Consonant confusion | 
+|  ེ ↔  &#xFEFF;ི | Vowel marker confusion | 
+| ལ ↔ ཡ | Semi-vowel/consonant | 
+| ཕ ↔ མ | Aspirated/nasal consonants | 
+| ག ↔ ང | Stop/nasal consonants | 
+| ཀ ↔ ག | Aspirated/plain stops | 
+| ཅ ↔ ཆ | Aspirated variants |
+| ན ↔ མ | Nasal consonants |
+| ཐ ↔ ད | Aspirated/plain stops |
+| ཐ ↔ ཏ | Aspirated variants |
+| ཕ ↔ པ | Aspirated/plain stops |
+| ཤ ↔ ས | Sibilant variants |
+| ཞ ↔ ཟ | Voiced variants |
+| ྱ ↔ &#xFEFF;ྲ| Subjoined letters | ya-btags/ra-btags |
+| ྀ ↔ &#xFEFF;ི | Reverse/normal gigu | Unicode variants |
 | དྱ ↔ གྱ | Digraphs | Two-character sequences |
 
 **Total: 34 bidirectional rules** (17 pairs)
@@ -34,7 +34,7 @@ This script performs rule-based data augmentation on Tibetan text files, designe
 
 - **Random Deletion**: Removes entire syllables (3% by default)
 - **Random Duplication**: Duplicates syllables (3% by default)
-- Syllables detected by Tibetan punctuation: ་ (tsheg), །, ༎, etc.
+- Syllables detected by Tibetan punctuation: ་ (tsheg), ། (shad), ༎ (double shad), etc.
 
 ## Usage
 
@@ -71,45 +71,36 @@ python3 tibrule_augmentation.py input.txt --char-ratio 0.2 --syllable-ratio 0.05
 | **30-40%** | Aggressive | Large-scale augmentation | More diversity, may reduce alignment |
 | **50%+** | Very Aggressive | ⚠️ Not recommended | Risk of breaking semantic alignment |
 
-### Why 50% is Too Much for Sentence Pairs
-
-Your original request specified 50% replacement ratio. Here's why this is problematic for parallel data:
+**Why 50% is Too Much for Sentence Pairs:**
 
 1. **Semantic Drift**: With 50% of characters changed, sentences can become semantically different from their pairs
 2. **Alignment Quality**: Translation models rely on consistent character-level patterns; too much noise breaks this
-3. **Diminishing Returns**: Research shows 15-25% augmentation provides optimal diversity without degradation
+3. **Diminishing Returns**: Generally 15-25% augmentation provides optimal diversity without degradation
 
 ### Recommended Settings by Task
 
 #### Machine Translation
 ```bash
 # Training set augmentation
-python tibetan_augmentation.py train.txt --char-ratio 0.2 --syllable-ratio 0.03
+python tibrule_augmentation.py train.txt --char-ratio 0.2 --syllable-ratio 0.03
 
 # Validation set (lighter augmentation)
-python tibetan_augmentation.py val.txt --char-ratio 0.1 --syllable-ratio 0.01
+python tibrule_augmentation.py val.txt --char-ratio 0.1 --syllable-ratio 0.01
 ```
 
 #### OCR Error Simulation
 ```bash
 # Simulate realistic OCR errors
-python tibetan_augmentation.py clean_text.txt --char-ratio 0.15 --syllable-ratio 0.02
+python tibrule_augmentation.py clean_text.txt --char-ratio 0.15 --syllable-ratio 0.02
 ```
 
 #### Robust Model Training
 ```bash
 # More aggressive for robustness
-python tibetan_augmentation.py robust_train.txt --char-ratio 0.3 --syllable-ratio 0.05
+python tibrule_augmentation.py robust_train.txt --char-ratio 0.3 --syllable-ratio 0.05
 ```
 
-## Output
-
-- **Filename**: `[input_name]_ruleout.txt`
-- **Line count**: Preserved (same number of lines as input)
-- **Encoding**: UTF-8
-- **Examples**: Prints 5 before/after examples to terminal
-
-## Implementation Details
+## How It Works
 
 ### Bidirectional Design
 All replacements work in both directions to prevent bias. For example:
@@ -129,21 +120,14 @@ Tibetan syllables are detected by their ending punctuation:
 - Each character type is processed independently
 - Syllable operations randomly choose deletion OR duplication per run
 
-## Research Background
+## Output
 
-### Optimal Augmentation Ratios
-Studies on neural MT show:
-- 15-20% character-level noise improves robustness
-- Syllable-level operations (2-5%) help with segmentation
-- Beyond 30% risks "over-augmentation" degrading quality
+- **Filename**: `[input_name]_ruleout.txt`
+- **Line count**: Preserved (same number of lines as input)
+- **Encoding**: UTF-8
+- **Examples**: Prints 5 before/after examples to terminal
 
-### Tibetan-Specific Considerations
-- Tibetan has many visually similar characters (making these replacements realistic)
-- OCR systems frequently confuse aspirated/unaspirated pairs
-- Subjoined letters (ྱ, ྲ, etc.) are often misrecognized
-- Bidirectional augmentation prevents corpus bias
-
-## Example Output
+### Example Output
 
 ```
 Original:  བོད་ཀྱི་སྐད་ཡིག་ནི་བོད་པའི་མི་རིགས་ཀྱི་སྐད་ཡིག་ཡིན།
@@ -164,6 +148,12 @@ Replaced:  བོད་སྐད་ཡྀག་ནི་བོད་པའི་
 - Handles empty lines and files gracefully
 - UTF-8 encoding errors are caught and reported
 
+## Support
+If you encounter issues: 
+1. Check the help: `python tibetan_augmentation.py --help`
+2. Test with small files first to validate behavior
+3. Adjust ratios based on specific task and data quality
+
 ## Future Enhancements
 
 Potential additions (not yet implemented):
@@ -173,22 +163,6 @@ Potential additions (not yet implemented):
 - Parallel processing for very large corpora
 - Integration with common ML frameworks
 
-## Citation
-
-If you use this augmentation method in research, consider citing:
-```
-Rule-based data augmentation for Tibetan text with bidirectional 
-character replacements and syllable-level operations.
-Replacement ratio: 20%, Syllable operations: 3% (configurable)
-```
-
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](https://github.com/pagantibet/normalisation/blob/main/LICENSE) file for details.
-
----
-
-**Questions or Issues?**
-- Check the help: `python tibetan_augmentation.py --help`
-- Test with small files first to validate behavior
-- Adjust ratios based on your specific task and data quality
