@@ -69,20 +69,6 @@ python3 tibetan-inference-flexible.py \
     --input_file input.txt
 ```
 
-
-
-### Mode 2: `neural` - Seq2seq Only
-**What it does:** Pure neural sequence-to-sequence normalization  
-**Best for:** Fast inference, when you trust your model  
-**Speed:** Very fast (~100-200 texts/sec on GPU)
-
-```bash
-python3 tibetan-inference-flexible.py \
-    --mode neural \
-    --model_path tibetan_model_nontokenized_allchars.pt \
-    --input_file input.txt
-```
-
 **Requirements:**
 - Seq2seq model file (`.pt`)
 
