@@ -727,7 +727,6 @@ If you encounter issues:
 4. Check GPU is being used (`Using device: cuda`)
 5. Review the Troubleshooting section above
 
----
 
 ## License
 
