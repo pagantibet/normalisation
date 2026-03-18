@@ -52,6 +52,19 @@ python3 tibtrainencdecoder_witheval.py \
     --use_normalized_vocab
 ```
 
+## Running on an HPC Cluster (SLURM)
+
+A [SLURM batch script](https://github.com/pagantibet/normalisation/blob/main/Training/tibtrain.sh) is provided for running training on an HPC cluster. 
+To submit the job:
+```bash
+sbatch tibtrain.sh
+```
+
+The provided script requests an RTX 6000 Ada GPU with 16 CPUs and a 15-hour 
+time limit, and activates the `pagantibenv` conda environment before training.
+Adjust the `#SBATCH` directives and model arguments as needed for your cluster 
+and dataset.
+
 ## Recommended GPU Configurations
 
 ### RTX 4060 (ultrafast)
