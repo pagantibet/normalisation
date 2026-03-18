@@ -1,10 +1,11 @@
 # Tibetan NLP Data Augmentation — Word & Syllable Swapping
 
-A Python script for augmenting Tibetan text datasets by randomly swapping adjacent words or syllables. Inspired by the [nlpaug](https://github.com/makcedward/nlpaug) library, it is designed to generate noisy, unnormalised text from clean Classical Tibetan — approximating the kind of variation found in diplomatic (manuscript) sources.
+A Python script for augmenting Tibetan text (.txt) datasets by randomly swapping adjacent words or syllables. Inspired by the [nlpaug](https://github.com/makcedward/nlpaug) library, it is designed to generate noisy, unnormalised text from clean Classical Tibetan — approximating the kind of variation found in diplomatic (manuscript) sources.
 
----
+This script was developed as part of [PaganTibet](https://www.pagantibet.com/)'s Normalisation workflow. For more information, see our [Normalisation README](https://github.com/pagantibet/normalisation/tree/main?tab=readme-ov-file).
 
-## Background
+
+## Overview
 
 The script generates new sentence pairs from normalised Classical Tibetan source text, producing output that resembles less-standardised, "diplomatic" transcriptions. It does not reproduce abbreviations, but the swapping augmentation introduces realistic positional variation for use in NLP model training.
 
@@ -15,22 +16,21 @@ Two modes are supported depending on whether the input text is whitespace-segmen
 | `segmented` | Whole whitespace-separated words |
 | `nonsegmented` | Individual syllables (split on the tsheg ་) |
 
----
 
 ## Requirements
 
 - Python 3.6+
 - No external dependencies
 
----
+
 
 ## Usage
+
+### Command Line
 
 ```bash
 python3 nlpaugtib.py --input <input_file.txt> --type <segmented|nonsegmented> [--aug_prob FLOAT]
 ```
-
-### Arguments
 
 | Argument | Description | Default |
 |---|---|---|
@@ -38,7 +38,7 @@ python3 nlpaugtib.py --input <input_file.txt> --type <segmented|nonsegmented> [-
 | `--type` | Text type: `segmented` or `nonsegmented` | *(required)* |
 | `--aug_prob` | Probability of swapping each adjacent pair | `0.05` |
 
-### Examples
+**Examples:**
 
 ```bash
 # Segmented (whitespace-tokenised) input
@@ -57,7 +57,6 @@ The output is written to the same directory as the input, with `_augmented` appe
 my_corpus.txt  →  my_corpus_augmented.txt
 ```
 
----
 
 ## How It Works
 
@@ -73,7 +72,6 @@ If a line contains the `<utt>` utterance boundary marker, it is stripped before 
 ### Empty lines
 Empty lines are passed through unchanged.
 
----
 
 ## Notes
 
@@ -81,7 +79,7 @@ Empty lines are passed through unchanged.
 - The output file is UTF-8 encoded.
 - `aug_prob` of `0.05` means roughly 1 in 20 adjacent pairs will be swapped — a light perturbation. Increase it for more aggressive augmentation.
 
----
+
 
 ## License
 
