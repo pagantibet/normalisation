@@ -1,6 +1,8 @@
 # Tibetan Dictionary Augmentation
 
-A Python script for processing Tibetan text files by adding abbreviation expansions from a dictionary to randomly selected lines.
+A Python script for processing Tibetan text (.txt) files by adding abbreviation expansions from a dictionary to randomly selected lines.
+
+This script was developed as part of [PaganTibet](https://www.pagantibet.com/)'s Normalisation workflow. For more information, see our [Normalisation README](https://github.com/pagantibet/normalisation/tree/main?tab=readme-ov-file). The abbreviation dictionary (~10,000 entries) used in Meelen & Griffiths (2026) is available on the [PaganTibet HuggingFace](https://huggingface.co/datasets/pagantibet/Tibetan-abbreviation-dictionary).
 
 ## Overview
 
@@ -16,13 +18,13 @@ Both output files maintain the original line order.
 - Removes `[]` brackets from dictionary entries automatically
 - Randomly selects 10,000 lines from the input file (not sequential)
 - Maintains original line order in output
-- Supports both tokenized (space-separated) and non-tokenized text
+- Supports both tokenised (space-separated) and non-tokenised text
 - Optional random seed for reproducible results
 - Detailed progress reporting and error handling
 
 ## Requirements
 
-- Python 3.6 or higher
+- Python 3.6+
 - No external dependencies (uses only standard library)
 
 ## Input File Formats
@@ -46,13 +48,13 @@ Columns can be separated by tabs or multiple spaces.
 
 ### Text File Formats
 
-**Tokenized (space-separated syllables):**
+**Tokenised (space-separated syllables):**
 ```
 ར་ འདྲེན་པ་ ཡོངས་ ཀྱི་ ཡེ་ཤེས་ སྣང་བ འི་ རང་གཟུགས་
 བྱ་བ འི་ སྒོ་གསུམ་པ་ གཟུགས་ཅན་ ལ ས་ མཐའ་དག་
 ```
 
-**Non-tokenized (continuous text):**
+**Non-tokenised (continuous text):**
 ```
 ཡེ་ཤེས་གཟིགས་པའི་འབབ་སྟེགས་སུ་ཞིག་རྒྱུད་དུ་བཅས་ཙམ་
 བས་ལེགས་གསུངས་ཐེག་གསུམ་བསྟན་པའི་ཟིལ་དངར་ལོངས་
@@ -60,7 +62,7 @@ Columns can be separated by tabs or multiple spaces.
 
 ## Usage
 
-### Basic Usage (Tokenized Text)
+### Basic Usage (Tokenised Text)
 
 ```bash
 python3 dictionary-augmentation.py input.txt abbreviation-dictionary.txt
@@ -70,7 +72,7 @@ This creates two files:
 - `input_abbrev.txt` - with abbreviations added (with space before them)
 - `input_dictaug.txt` - with expansions added (with space before them)
 
-### Non-Tokenized Text
+### Non-Tokenised Text
 
 ```bash
 python3 dictionary-augmentation.py input.txt abbreviation-dictionary.txt --non-tokenized
@@ -86,7 +88,7 @@ This creates two files:
 python3 dictionary-augmentation.py input.txt dictionary.txt 42
 ```
 
-Or for non-tokenized with seed:
+Or for non-tokenised with seed:
 
 ```bash
 python3 dictionary-augmentation.py input.txt abbreviation-dictionary.txt --non-tokenized 42
@@ -101,7 +103,7 @@ python3 dictionary-augmentation.py <input_text_file> <dictionary_file> [--non-to
 **Arguments:**
 - `input_text_file` (required): Path to your Tibetan text file (~25k lines)
 - `dictionary_file` (required): Path to your abbreviation dictionary file (~10k entries)
-- `--non-tokenized` (optional): Use this flag for non-tokenized input (no space before abbreviations/expansions)
+- `--non-tokenized` (optional): Use this flag for non-tokenised input (no space before abbreviations/expansions)
 - `random_seed` (optional): Integer value for reproducible random selection
 
 **Output:**
@@ -112,7 +114,7 @@ python3 dictionary-augmentation.py <input_text_file> <dictionary_file> [--non-to
 
 ## Examples
 
-### Example 1: Tokenized Text
+### Example 1: Tokenised Text
 
 **Original input line:**
 ```
@@ -136,7 +138,7 @@ python3 dictionary-augmentation.py <input_text_file> <dictionary_file> [--non-to
 ```
 (Note the space before the expansion)
 
-### Example 2: Non-Tokenized Text
+### Example 2: Non-Tokenised Text
 
 **Original input line:**
 ```
@@ -209,10 +211,6 @@ The script includes comprehensive error handling for:
 - Original line order is always preserved in the output
 - Empty lines in the input are treated like any other line
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/pagantibet/normalisation/blob/main/LICENSE) file for details.
-
 ## Support
 
 If you encounter issues:
@@ -220,3 +218,9 @@ If you encounter issues:
 2. Ensure your input files are UTF-8 encoded
 3. Verify that brackets `[]` appear in the dictionary file (they will be removed automatically)
 4. Check the console output for specific error messages or warnings
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/pagantibet/normalisation/blob/main/LICENSE) file for details.
+
+
