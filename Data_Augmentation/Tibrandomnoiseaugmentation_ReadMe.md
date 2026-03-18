@@ -2,7 +2,8 @@
 
 A Python script for augmenting Tibetan-script datasets by inserting random noise characters into text, useful for training more robust NLP and OCR models.
 
----
+This script was developed as part of [PaganTibet](https://www.pagantibet.com/)'s Normalisation workflow. For more information, see our [Normalisation README](https://github.com/pagantibet/normalisation/tree/main?tab=readme-ov-file).
+
 
 ## How It Works
 
@@ -16,14 +17,13 @@ This flat probability ensures that even short lines receive augmentation. (The o
 
 Noise characters are drawn from a built-in list of common Tibetan Unicode characters, including consonants, vowel signs, and punctuation marks.
 
----
 
 ## Requirements
 
 - Python 3.6+
 - No external dependencies
 
----
+
 
 ## Usage
 
@@ -58,7 +58,7 @@ The output is written to a new file in the same directory, with `_noiseout` appe
 my_corpus.txt  →  my_corpus_noiseout.txt
 ```
 
----
+
 
 ### As a Python Module
 
@@ -75,7 +75,7 @@ texts = ["བཀྲ་ཤིས།", "བདེ་ལེགས།"]
 augmented = augmenter.augment_batch(texts, num_augmentations=3)
 ```
 
----
+
 
 ## Parameters
 
@@ -100,26 +100,25 @@ augmented = augmenter.augment_batch(texts, num_augmentations=3)
 | `texts`             | `List[str]` | List of input strings                    |
 | `num_augmentations` | `int`       | Number of noisy variants to produce per text |
 
----
 
 ## Noise Character Set
 
 The default noise pool (`TIBETAN_CHARACTERS`) includes:
 
 - **Consonants:** ཀ ཁ ག ང ཅ ཆ ཇ ཉ ཏ ཐ ད ན པ ཕ བ མ ཙ ཚ ཛ ཝ ཞ ཟ འ ཡ ར ལ ཤ ས ཧ ཨ
-- **Punctuation:** ་ (tsheg) ། (shad) ༄ ༅
-- **Vowel signs:** ི ུ ེ ོ ྀ ཱ
-- **Sub-joined letters:** ྭ ྱ ྲ ླ
+- **Punctuation:** ་ (tsheg) ། (shad) ༄ ༅ (yig mgo)
+- **Vowel signs:** &#xFEFF;ི &#xFEFF;ུ &#xFEFF;ེ &#xFEFF;ོ &#xFEFF;ཱ
+- **Sub-joined letters:** &#xFEFF;ྱ &#xFEFF;ྲ &#xFEFF;ྭ &#xFEFF;ླ
 
 You can supply a custom character list via the `noise_chars` argument to `insert_noise()`.
 
----
+
 
 ## Notes
 
-- Empty lines in the input file are preserved unchanged.
-- The output file is UTF-8 encoded.
-- Each run produces different results due to random sampling; set `random.seed()` before calling if you need reproducibility.
+- Empty lines in the input file are preserved unchanged
+- The output file is UTF-8 encoded
+- Each run produces different results due to random sampling; set `random.seed()` before calling if you need reproducibility
 
 ## License
 
