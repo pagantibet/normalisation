@@ -1,23 +1,24 @@
-# Tibetan Text Normalization - Unified Inference System
+# Tibetan Text Normalisation - Unified Inference System
 
-Complete inference system for Tibetan text normalization supporting **6 different approaches**: neural seq2seq, language model ranking, rule-based normalization, and various combinations.
+Complete inference system for Tibetan text normalisation supporting **6 different approaches**: neural seq2seq, language model (LM) ranking, rule-based normalisation, and various combinations.
 
-## 📋 Table of Contents
+This was developed as part of [PaganTibet](https://www.pagantibet.com/)'s Normalisation workflow. For more information, see our [Normalisation README](https://github.com/pagantibet/normalisation/tree/main?tab=readme-ov-file).
+
+## Table of Contents
 
 - [Quick Start](#quick-start)
-- [The 5 Modes](#the-5-modes)
+- [The 6 Modes](#the-6-modes)
 - [Installation](#installation)
 - [Usage Examples](#usage-examples)
 - [File Requirements](#file-requirements)
 - [Performance Guide](#performance-guide)
 - [Troubleshooting](#troubleshooting)
 
----
 
-## 🚀 Quick Start
+## Quick Start
 
+### Neural + LM + Rules (full pipeline - recommended)
 ```bash
-# Neural + LM + Rules (full pipeline - recommended)
 python3 tibetan_inference_with_rules.py \
     --mode neural+lm+rules \
     --model_path tibetan_model_6000.pt \
@@ -29,14 +30,14 @@ python3 tibetan_inference_with_rules.py \
 
 Output will be automatically saved to `GoldTest_source_prediction.txt`.
 
----
 
-## 🎯 The 6 Modes
+
+## The 6 Modes
 
 ### Mode 1: `rules` - Rule-based Only
 **What it does:** Dictionary-based abbreviation expansion + punctuation fixes  
 **Best for:** Baseline comparison, very fast processing  
-**Speed:** ⚡⚡⚡ Very fast (~1000+ texts/sec)
+**Speed:** Very fast (~1000+ texts/sec)
 
 ```bash
 python3 tibetan_inference_with_rules.py \
@@ -54,12 +55,12 @@ python3 tibetan_inference_with_rules.py \
 **Requirements:**
 - Abbreviation dictionary file (tab-separated)
 
----
+
 
 ### Mode 2: `neural` - Seq2seq Only
 **What it does:** Pure neural sequence-to-sequence normalization  
 **Best for:** Fast inference, when you trust your model  
-**Speed:** ⚡⚡⚡ Very fast (~100-200 texts/sec on GPU)
+**Speed:** Very fast (~100-200 texts/sec on GPU)
 
 ```bash
 python3 tibetan_inference_with_rules.py \
@@ -68,12 +69,12 @@ python3 tibetan_inference_with_rules.py \
     --input_file input.txt
 ```
 
----
+
 
 ### Mode 2: `neural` - Seq2seq Only
 **What it does:** Pure neural sequence-to-sequence normalization  
 **Best for:** Fast inference, when you trust your model  
-**Speed:** ⚡⚡⚡ Very fast (~100-200 texts/sec on GPU)
+**Speed:** Very fast (~100-200 texts/sec on GPU)
 
 ```bash
 python3 tibetan_inference_with_rules.py \
@@ -85,12 +86,12 @@ python3 tibetan_inference_with_rules.py \
 **Requirements:**
 - Seq2seq model file (`.pt`)
 
----
+
 
 ### Mode 3: `neural+lm` - Seq2seq + KenLM
 **What it does:** Neural normalization with language model reranking  
 **Best for:** Better quality when you have a strong language model  
-**Speed:** ⚡⚡ Fast (~50-100 texts/sec with KenLM, ~5-20 with Python LM)
+**Speed:** Fast (~50-100 texts/sec with KenLM, ~5-20 with Python LM)
 
 ```bash
 python3 tibetan_inference_with_rules.py \
@@ -105,12 +106,12 @@ python3 tibetan_inference_with_rules.py \
 - Seq2seq model file (`.pt`)
 - KenLM ARPA file (`.arpa`)
 
----
+
 
 ### Mode 3: `neural+lm` - Seq2seq + KenLM
 **What it does:** Neural normalization with language model reranking  
 **Best for:** Better quality when you have a strong language model  
-**Speed:** ⚡⚡ Fast (~50-100 texts/sec with KenLM, ~5-20 with Python LM)
+**Speed:** Fast (~50-100 texts/sec with KenLM, ~5-20 with Python LM)
 
 ```bash
 python3 tibetan_inference_with_rules.py \
@@ -130,12 +131,11 @@ python3 tibetan_inference_with_rules.py \
 - `--lm_backend python` - Slower but no installation needed
 - `--lm_backend auto` - Auto-detect (default)
 
----
 
-### Mode 4: `neural+lm+rules` - Neural + LM → Rules ⭐ RECOMMENDED
+### Mode 4: `neural+lm+rules` - Neural + LM → Rules - RECOMMENDED
 **What it does:** Neural + LM normalization, then rules as postprocessing  
 **Best for:** Highest quality, uses all available resources  
-**Speed:** ⚡ Moderate (~40-80 texts/sec)
+**Speed:** Moderate (~40-80 texts/sec)
 
 ```bash
 python3 tibetan_inference_with_rules.py \
@@ -157,12 +157,12 @@ Input → Neural model → KenLM reranking → Rules postprocessing → Output
 - KenLM ARPA file (`.arpa`)
 - Abbreviation dictionary file
 
----
 
-### Mode 5: `rules+neural+lm` - Rules → Neural + LM ⭐
+
+### Mode 5: `rules+neural+lm` - Rules → Neural + LM 
 **What it does:** Apply rules as preprocessing, then neural + KenLM normalization  
 **Best for:** When input has abbreviations to expand before neural processing  
-**Speed:** ⚡ Moderate (~40-80 texts/sec)
+**Speed:** Moderate (~40-80 texts/sec)
 
 ```bash
 python3 tibetan_inference_with_rules.py \
@@ -184,12 +184,12 @@ Input → Rules preprocessing → Neural model → KenLM reranking → Output
 - KenLM ARPA file (`.arpa`)
 - Abbreviation dictionary file
 
----
+
 
 ### Mode 6: `rules+neural` - Rules → Neural
 **What it does:** Apply rules as preprocessing, then neural normalization  
 **Best for:** When you want rules to clean input before neural processing  
-**Speed:** ⚡⚡ Fast (~80-150 texts/sec)
+**Speed:** Fast (~80-150 texts/sec)
 
 ```bash
 python3 tibetan_inference_with_rules.py \
@@ -208,9 +208,9 @@ Input → Rules preprocessing → Neural model → Output
 - Seq2seq model file (`.pt`)
 - Abbreviation dictionary file
 
----
 
-## 📦 Installation
+
+## Installation
 
 ### Basic Requirements (Always Needed)
 ```bash
@@ -231,9 +231,9 @@ pip install https://github.com/kpu/kenlm/archive/master.zip
 ### Optional: Pure Python ARPA (no installation needed)
 If you can't install KenLM, the script includes a pure Python ARPA reader. Just make sure `arpa_lm_python.py` is in the same directory.
 
----
 
-## 💡 Usage Examples
+
+## Usage Examples
 
 ### Example 1: Single Text Normalization
 ```bash
@@ -310,9 +310,9 @@ for mode in neural neural+lm rules rules+neural neural+lm+rules; do
 done
 ```
 
----
 
-## 📁 File Requirements
+
+## File Requirements
 
 ### 1. Seq2seq Model File (`.pt`)
 Your trained neural model. The script auto-detects architecture from the checkpoint.
@@ -362,9 +362,9 @@ Plain text file, one sentence per line, UTF-8 encoding.
 དེ་བཞིན་དུ་གསུངས་སོ
 ```
 
----
 
-## ⚙️ Advanced Options
+
+## Advanced Options
 
 ### Beam Search Parameters
 
@@ -434,9 +434,9 @@ python3 tibetan_inference_with_rules.py \
     --length_penalty 0.7
 ```
 
----
 
-## 🏃 Performance Guide
+
+## Performance Guide
 
 ### Speed Expectations (200 texts)
 
@@ -481,9 +481,9 @@ python3 tibetan_inference_with_rules.py \
 - **Total GPU**: 3-5 GB recommended
 - **CPU only**: Works but 10x slower
 
----
 
-## 🔧 Troubleshooting
+
+## Troubleshooting
 
 ### Problem: Model architecture mismatch error
 ```
@@ -563,9 +563,9 @@ CUDA_VISIBLE_DEVICES="" python3 tibetan_inference_with_rules.py ...
 ### Problem: `<unk>` tokens in output
 **Solution:** This is fixed in the current version. The script blocks `<unk>` during generation. If you still see them, you're using an old version.
 
----
 
-## 📊 Comparing Modes
+
+## Comparing Modes
 
 To systematically compare all modes:
 
@@ -634,9 +634,9 @@ echo "All modes complete! Compare results_*.txt files"
 
 Then evaluate with your metrics script.
 
----
 
-## 🎓 Which Mode Should I Use?
+
+## Which Mode Should I Use?
 
 ### For Research/Publication
 **Use:** `neural+lm+rules` (Mode 4) or `rules+neural+lm` (Mode 5)
@@ -671,9 +671,9 @@ Then evaluate with your metrics script.
 - Does rules preprocessing or postprocessing work better?
 - What's the best combination?
 
----
 
-## 📝 Example Workflow
+
+## Example Workflow
 
 ```bash
 # 1. Check your model
@@ -702,9 +702,9 @@ python3 evaluate.py \
     --references GoldTest_target.txt
 ```
 
----
 
-## 📚 Additional Files
+
+##  Additional Files
 
 ### Other Scripts Available:
 
@@ -715,9 +715,9 @@ python3 evaluate.py \
 ### Recommended: Use `tibetan_inference_with_rules.py`
 It's the most complete and flexible version.
 
----
 
-## 🤝 Support
+
+## Support
 
 If you encounter issues:
 
@@ -729,38 +729,6 @@ If you encounter issues:
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](https://github.com/pagantibet/normalisation/blob/main/LICENSE) file for details.
-
-## 🙏 Citation
-
-If you use this code in research, please cite:
-
-```
-@software{tibetan_normalization_2026,
-  title={Tibetan Text Normalization: Unified Neural and Rule-based System},
-  author={Your Name},
-  year={2026},
-  note={Character-based seq2seq with KenLM and rule-based postprocessing}
-}
-```
-
----
-
-## 🎉 Quick Reference Card
-
-```bash
-# Most common command (full pipeline with auto output):
-python3 tibetan_inference_with_rules.py \
-    --mode neural+lm+rules \
-    --model_path tibetan_model_6000.pt \
-    --kenlm_path model_5gram_char.arpa \
-    --lm_backend python \
-    --rules_dict abbreviations.txt \
-    --input_file INPUT.txt
-
-# Output: INPUT_prediction.txt (automatic!)
-```
-
-That's it! You're ready to normalize Tibetan text. 🚀
