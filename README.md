@@ -32,7 +32,7 @@ Datasets for the experiments in Meelen & Griffiths (2026) had to be prepared in 
 
 - a 'Gold-standard' collection of manually-normalised 7421 paired sentences from the PaganTibet corpus
 - the Standard Classical Tibetan ACTib (>180m words), available from [Zenodo (Meelen & Roux 2020)](https://zenodo.org/records/3951503)
-- a custom-made abbreviation dictionary for rule-based replacements (around 10k abbreviations with expansions)
+- a [custom-made abbreviation dictionary](https://huggingface.co/datasets/pagantibet/Tibetan-abbreviation-dictionary) for rule-based replacements (around 10k abbreviations with expansions)
 
 Datasets and models can be found on the [PaganTibet Huggingface](https://huggingface.co/pagantibet).
 
