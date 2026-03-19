@@ -12,8 +12,13 @@ Datasets and models mentioned in this README can be found on the [PaganTibet Hug
 - [File Requirements](#file-requirements)
 - [Installation](#installation)
 - [Usage Examples](#usage-examples)
+- [Advanced Options](#advanced-options)
 - [Performance Guide](#performance-guide)
 - [Troubleshooting](#troubleshooting)
+- [Comparing Modes](#comparing-modes)
+- [Example Workflow](#example-workflow)
+- [Support](#support)
+- [License](#license)
 
 
 ## The 6 Modes
