@@ -2,34 +2,18 @@
 
 Complete inference system for Tibetan text normalisation supporting **6 different approaches**: neural seq2seq, language model (LM) ranking, rule-based normalisation, and various combinations.
 
-This was developed as part of [PaganTibet](https://www.pagantibet.com/)'s Normalisation workflow. For more information, see our [Normalisation README](https://github.com/pagantibet/normalisation/tree/main?tab=readme-ov-file).
+This was developed as part of [PaganTibet](https://www.pagantibet.com/)'s Normalisation workflow. For more information, see our [Normalisation README](https://github.com/pagantibet/normalisation/tree/main?tab=readme-ov-file). 
+
+Datasets and models mentioned in this README can be found on the [PaganTibet HuggingFace](https://huggingface.co/datasets/pagantibet/Tibetan-abbreviation-dictionary).
 
 ## Table of Contents
 
-- [Quick Start](#quick-start)
 - [The 6 Modes](#the-6-modes)
+- [File Requirements](#file-requirements)
 - [Installation](#installation)
 - [Usage Examples](#usage-examples)
-- [File Requirements](#file-requirements)
 - [Performance Guide](#performance-guide)
 - [Troubleshooting](#troubleshooting)
-
-
-## Quick Start
-
-### Neural + LM + Rules (full pipeline - recommended)
-```bash
-python3 tibetan-inference-flexible.py \
-    --mode neural+lm+rules \
-    --model_path tibetan_model_nontokenized_allchars.pt \
-    --kenlm_path model_5gram_char.arpa \
-    --lm_backend python \
-    --rules_dict abbreviations.txt \
-    --input_file GoldTest_source.txt
-```
-
-Output will be automatically saved to `GoldTest_source_prediction.txt`.
-
 
 
 ## The 6 Modes
@@ -53,12 +37,12 @@ python3 tibetan-inference-flexible.py \
 4. Remove double tsheg: ་་ → ་
 
 **Requirements:**
-- Abbreviation dictionary file (tab-separated)
+- Abbreviation dictionary file (tab-separated).
 
 
 
 ### Mode 2: `neural` - Seq2seq Only
-**What it does:** Pure neural sequence-to-sequence normalization  
+**What it does:** Pure neural sequence-to-sequence normalisation  
 **Best for:** Fast inference, when you trust your model  
 **Speed:** Very fast (~100-200 texts/sec on GPU)
 
@@ -75,27 +59,7 @@ python3 tibetan-inference-flexible.py \
 
 
 ### Mode 3: `neural+lm` - Seq2seq + KenLM
-**What it does:** Neural normalization with language model reranking  
-**Best for:** Better quality when you have a strong language model  
-**Speed:** Fast (~50-100 texts/sec with KenLM, ~5-20 with Python LM)
-
-```bash
-python3 tibetan-inference-flexible.py \
-    --mode neural+lm \
-    --model_path tibetan_model_nontokenized_allchars.pt \
-    --kenlm_path model_5gram_char.arpa \
-    --lm_backend python \
-    --input_file input.txt
-```
-
-**Requirements:**
-- Seq2seq model file (`.pt`)
-- KenLM ARPA file (`.arpa`)
-
-
-
-### Mode 3: `neural+lm` - Seq2seq + KenLM
-**What it does:** Neural normalization with language model reranking  
+**What it does:** Neural normalisation with language model reranking  
 **Best for:** Better quality when you have a strong language model  
 **Speed:** Fast (~50-100 texts/sec with KenLM, ~5-20 with Python LM)
 
@@ -119,7 +83,7 @@ python3 tibetan-inference-flexible.py \
 
 
 ### Mode 4: `neural+lm+rules` - Neural + LM → Rules - RECOMMENDED
-**What it does:** Neural + LM normalization, then rules as postprocessing  
+**What it does:** Neural + LM normalisation, then rules are applied as postprocessing  
 **Best for:** Highest quality, uses all available resources  
 **Speed:** Moderate (~40-80 texts/sec)
 
@@ -133,20 +97,14 @@ python3 tibetan-inference-flexible.py \
     --input_file input.txt
 ```
 
-**Pipeline:**
-```
-Input → Neural model → KenLM reranking → Rules postprocessing → Output
-```
-
 **Requirements:**
 - Seq2seq model file (`.pt`)
 - KenLM ARPA file (`.arpa`)
 - Abbreviation dictionary file
 
 
-
 ### Mode 5: `rules+neural+lm` - Rules → Neural + LM 
-**What it does:** Apply rules as preprocessing, then neural + KenLM normalization  
+**What it does:** Applies rules as preprocessing, then neural + KenLM normalisation  
 **Best for:** When input has abbreviations to expand before neural processing  
 **Speed:** Moderate (~40-80 texts/sec)
 
@@ -160,20 +118,13 @@ python3 tibetan-inference-flexible.py \
     --input_file input.txt
 ```
 
-**Pipeline:**
-```
-Input → Rules preprocessing → Neural model → KenLM reranking → Output
-```
-
 **Requirements:**
 - Seq2seq model file (`.pt`)
 - KenLM ARPA file (`.arpa`)
 - Abbreviation dictionary file
 
-
-
 ### Mode 6: `rules+neural` - Rules → Neural
-**What it does:** Apply rules as preprocessing, then neural normalization  
+**What it does:** Applies rules as preprocessing, then neural normalisation  
 **Best for:** When you want rules to clean input before neural processing  
 **Speed:** Fast (~80-150 texts/sec)
 
@@ -185,20 +136,56 @@ python3 tibetan-inference-flexible.py \
     --input_file input.txt
 ```
 
-**Pipeline:**
-```
-Input → Rules preprocessing → Neural model → Output
-```
-
 **Requirements:**
 - Seq2seq model file (`.pt`)
 - Abbreviation dictionary file
 
+## File Requirements
 
+### 1. Seq2seq Model File (`.pt`)
+Your trained neural model. The script auto-detects architecture from the checkpoint. The seg2seg model used in Meelen & Griffiths (2026) is available on the [PaganTibet HuggingFace](https://huggingface.co/datasets/pagantibet/Tibetan-abbreviation-dictionary).
+
+**Required for modes:** `neural`, `neural+lm`, `rules+neural`, `neural+lm+rules` and `rules+neural+lm`
+
+**Check your model:**
+```bash
+python3 -c "import torch; c=torch.load('model.pt', map_location='cpu', weights_only=False); print(c['args'])"
+```
+
+### 2. KenLM ARPA File (`.arpa`)
+Character-based language model in ARPA format. The LM model used in Meelen & Griffiths (2026) is available on the [PaganTibet HuggingFace](https://huggingface.co/datasets/pagantibet/Tibetan-abbreviation-dictionary).
+
+**Required for modes:** `neural+lm`, `neural+lm+rules` and `rules+neural+lm`
+
+**Format:** Standard ARPA format (5-gram recommended)
+
+**Note:** `.bin` files won't work with pure Python backend, only `.arpa`
+
+### 3. Abbreviation Dictionary (`.txt`)
+Tab-separated file with diplomatic → normalised mappings. The abbreviation dictionary (~10,000 entries) used in Meelen & Griffiths (2026) is available on the [PaganTibet HuggingFace](https://huggingface.co/datasets/pagantibet/Tibetan-abbreviation-dictionary).
+
+**Required for modes:** `rules`, `rules+neural`, `neural+lm+rules`and `rules+neural+lm`
+
+**Example:**
+```
+Diplomatic    Normalised
+[རྡོ་]        [རྡོ་རྗེ་]
+[རིག་]       [རིགས་]
+```
+
+### 4. Input File Format
+Plain text file (.txt), one sentence per line, UTF-8 encoding.
+
+**Example:**
+```
+བོད་ཡིག་གི་སྐད་ཡིག
+གཞན་ཡང་འདི་ལྟར་བྱས
+དེ་བཞིན་དུ་གསུངས་སོ
+```
 
 ## Installation
 
-### Basic Requirements (Always Needed)
+### Basic Requirements (always needed)
 ```bash
 pip install torch
 ```
@@ -221,7 +208,7 @@ If you can't install KenLM, the script includes a pure Python ARPA reader. Just 
 
 ## Usage Examples
 
-### Example 1: Single Text Normalization
+### Example 1: Single Text Normalisation (using Mode 2: `neural` - Seq2seq Only)
 ```bash
 python3 tibetan-inference-flexible.py \
     --mode neural \
@@ -236,7 +223,7 @@ Output: བོད་ཡིག་གི་སྐད་ཡིག་
 Time: 0.023s
 ```
 
-### Example 2: Batch Processing (Auto Output Filename)
+### Example 2: Batch Processing (Auto Output Filename; using Mode 4: `neural+lm+rules` - Neural + LM → Rules)
 ```bash
 python3 tibetan-inference-flexible.py \
     --mode neural+lm+rules \
@@ -247,9 +234,9 @@ python3 tibetan-inference-flexible.py \
     --input_file test_data.txt
 ```
 
-Output will be saved to: `test_data_prediction.txt` (automatic!)
+Output will be saved to: `test_data_prediction.txt`
 
-### Example 3: Custom Output Filename
+### Example 3: Custom Output Filename (using Mode 4: `neural+lm+rules` - Neural + LM → Rules)
 ```bash
 python3 tibetan-inference-flexible.py \
     --mode neural+lm \
@@ -259,8 +246,9 @@ python3 tibetan-inference-flexible.py \
     --input_file test_data.txt \
     --output_file my_results.txt
 ```
+Output will be saved to: `my_results_prediction.txt`
 
-### Example 4: Interactive Mode
+### Example 4: Interactive Mode (using Mode 2: `neural` - Seq2seq Only)
 ```bash
 python3 tibetan-inference-flexible.py \
     --mode neural \
@@ -283,8 +271,8 @@ Exiting...
 
 ### Example 5: Comparing All Modes
 ```bash
-# Run all 5 modes on the same data
-for mode in neural neural+lm rules rules+neural neural+lm+rules; do
+# Run all 6 modes on the same data
+for mode in neural neural+lm rules rules+neural neural+lm+rules rules+neural+lm; do
     python3 tibetan-inference-flexible.py \
         --mode $mode \
         --model_path tibetan_model_nontokenized_allchars.pt \
@@ -295,60 +283,6 @@ for mode in neural neural+lm rules rules+neural neural+lm+rules; do
         --output_file results_${mode}.txt
 done
 ```
-
-
-
-## File Requirements
-
-### 1. Seq2seq Model File (`.pt`)
-Your trained neural model. The script auto-detects architecture from the checkpoint.
-
-**Required for modes:** `neural`, `neural+lm`, `rules+neural`, `neural+lm+rules`
-
-**Check your model:**
-```bash
-python3 -c "import torch; c=torch.load('model.pt', map_location='cpu', weights_only=False); print(c['args'])"
-```
-
-### 2. KenLM ARPA File (`.arpa`)
-Character-based language model in ARPA format.
-
-**Required for modes:** `neural+lm`, `neural+lm+rules`
-
-**Format:** Standard ARPA format (5-gram recommended)
-
-**Note:** `.bin` files won't work with pure Python backend, only `.arpa`
-
-### 3. Abbreviation Dictionary (`.txt`)
-Tab-separated file with diplomatic → normalized mappings.
-
-**Required for modes:** `rules`, `rules+neural`, `neural+lm+rules`
-
-**Format:**
-```
-Diplomatic    Normalised
-[རྡོ་]        [རྡོ་རྗེ་]
-[རིག་]       [རིགས་]
-```
-
-**Example:**
-```
-Diplomatic    Normalised
-[རི་རུ་]      [རི་རུ་བ་]
-[ཚང་པ་]      [ཚང་པ་བ་]
-```
-
-### 4. Input File Format
-Plain text file, one sentence per line, UTF-8 encoding.
-
-**Example:**
-```
-བོད་ཡིག་གི་སྐད་ཡིག
-གཞན་ཡང་འདི་ལྟར་བྱས
-དེ་བཞིན་དུ་གསུངས་སོ
-```
-
-
 
 ## Advanced Options
 
@@ -375,7 +309,7 @@ Plain text file, one sentence per line, UTF-8 encoding.
 **`--lm_weight`** (default: 0.2)
 - Controls influence of language model
 - Range: 0.0-1.0
-- Your 8M KenLM is strong, so 0.2-0.3 works well
+- Typical range: 0.2-0.3
 
 ```bash
 # Trust neural more
@@ -406,7 +340,7 @@ Plain text file, one sentence per line, UTF-8 encoding.
 --length_penalty 0.7
 ```
 
-### Example with All Parameters
+### Example with All Parameters (using Mode 4: `neural+lm+rules` - Neural + LM → Rules)
 ```bash
 python3 tibetan-inference-flexible.py \
     --mode neural+lm+rules \
@@ -426,39 +360,29 @@ python3 tibetan-inference-flexible.py \
 
 ### Speed Expectations (200 texts)
 
-| Mode | GPU Time | CPU Time | Quality |
-|------|----------|----------|---------|
-| 1. `rules` | 0.2 sec | 0.5 sec | Baseline |
-| 2. `neural` | 30 sec | 2-5 min | Good |
-| 3. `neural+lm` (KenLM) | 60 sec | 5-10 min | Better |
-| 3. `neural+lm` (Python) | 2-4 min | 10-20 min | Better |
-| 4. `neural+lm+rules` | 90 sec | 8-15 min | Best |
-| 5. `rules+neural+lm` | 90 sec | 8-15 min | Best |
-| 6. `rules+neural` | 40 sec | 3-6 min | Good |
+| Mode | GPU Time | CPU Time |
+|------|----------|----------|
+| 1. `rules` | 0.2 sec | 0.5 sec |
+| 2. `neural` | 30 sec | 2-5 min |
+| 3. `neural+lm` (KenLM) | 60 sec | 5-10 min |
+| 3. `neural+lm` (Python) | 2-4 min | 10-20 min |
+| 4. `neural+lm+rules` | 90 sec | 8-15 min |
+| 5. `rules+neural+lm` | 90 sec | 8-15 min |
+| 6. `rules+neural` | 40 sec | 3-6 min |
 
-### Optimization Tips
+### Optimisation Tips
 
 **For Speed:**
-```bash
-# Use GPU (automatic if available)
-# Reduce beam width
---beam_width 3
 
-# Skip KenLM or use KenLM instead of Python
---mode neural
-```
+- Use GPU (automatic if available)
+- Reduce beam width: `--beam_width 3`
+- Skip KenLM or use KenLM instead of Python: `--mode neural`
 
 **For Quality:**
-```bash
-# Full pipeline
---mode neural+lm+rules
 
-# Increase beam width
---beam_width 10
-
-# Tune LM weight
---lm_weight 0.25
-```
+- Use full pipeline: `--mode neural+lm+rules`
+- Increase beam width: `--beam_width 10`
+- Tune LM weight: `--lm_weight 0.25`
 
 ### Memory Usage
 
@@ -482,15 +406,15 @@ python3 -c "import torch; c=torch.load('model.pt', map_location='cpu', weights_o
 ```
 
 Make sure:
-- Model trained on non-tokenized data matches non-tokenized test data
-- Model trained on tokenized data matches tokenized test data
+- Model trained on non-tokenised data matches non-tokenised test data
+- Model trained on tokenised data matches tokenised test data
 
 ### Problem: Random spaces in output
 ```
 Output: ལག་ནས་ ཕྱ་ཁུག་ ཅིག །
 ```
 
-**Cause:** Model trained on tokenized data, testing on non-tokenized  
+**Cause:** Model trained on tokenised data, testing on non-tokenised  
 **Solution:** Use the correct model (check training args above)
 
 ### Problem: KenLM not found
@@ -498,7 +422,7 @@ Output: ལག་ནས་ ཕྱ་ཁུག་ ཅིག །
 ImportError: No module named 'kenlm'
 ```
 
-**Solution 1:** Install KenLM (see Installation section)  
+**Solution 1:** Install KenLM (see [Installation](#installation))  
 **Solution 2:** Use pure Python backend:
 ```bash
 --lm_backend python
@@ -538,13 +462,9 @@ RuntimeError: CUDA out of memory
 ```
 
 **Solutions:**
-```bash
-# Reduce beam width
---beam_width 3
 
-# Or force CPU
-CUDA_VISIBLE_DEVICES="" python3 tibetan_inference_with_rules.py ...
-```
+- Reduce beam width: `--beam_width 3`
+- Or force CPU: `CUDA_VISIBLE_DEVICES="" python3 tibetan_inference_with_rules.py ...`
 
 ### Problem: `<unk>` tokens in output
 **Solution:** This is fixed in the current version. The script blocks `<unk>` during generation. If you still see them, you're using an old version.
@@ -559,7 +479,7 @@ To systematically compare all modes:
 #!/bin/bash
 # compare_modes.sh
 
-INPUT="GoldTest_source.txt"
+INPUT="test.txt"
 MODEL="tibetan_model_nontokenized_allchars.pt"
 KENLM="model_5gram_char.arpa"
 RULES="abbreviations.txt"
@@ -621,57 +541,24 @@ echo "All modes complete! Compare results_*.txt files"
 Then evaluate with your metrics script.
 
 
-
-## Which Mode Should I Use?
-
-### For Research/Publication
-**Use:** `neural+lm+rules` (Mode 4) or `rules+neural+lm` (Mode 5)
-- Highest quality
-- Uses all available information
-- Mode 4 if neural output needs cleanup, Mode 5 if input needs preprocessing
-- Worth the extra computation time
-
-### For Production/Large-Scale Processing
-**Use:** `neural+lm` (Mode 3) with KenLM
-- Good balance of quality and speed
-- ~50-100 texts/sec with KenLM installed
-- Reliable and well-tested
-
-### For Real-time Applications
-**Use:** `neural` (Mode 2)
-- Fastest neural option
-- ~100-200 texts/sec
-- Still produces good results
-
-### For Baseline Comparison
-**Use:** `rules` (Mode 1)
-- See what simple rules can achieve
-- Very fast
-- Good for understanding what neural adds
-
-### For Ablation Studies
-**Compare all 6 modes** to understand:
-- What does the neural model contribute?
-- How much does KenLM help?
-- Do rules add value?
-- Does rules preprocessing or postprocessing work better?
-- What's the best combination?
-
-
-
 ## Example Workflow
 
-```bash
-# 1. Check your model
-python3 -c "import torch; c=torch.load('tibetan_model_nontokenized_allchars.pt', map_location='cpu', weights_only=False); print(c['args'])"
 
-# 2. Run quick test on single text
+1. Check your model:
+```bash
+python3 -c "import torch; c=torch.load('tibetan_model_nontokenized_allchars.pt', map_location='cpu', weights_only=False); print(c['args'])"
+```
+
+2. Run quick test on single text:
+```bash
 python3 tibetan-inference-flexible.py \
     --mode neural \
     --model_path tibetan_model_nontokenized_allchars.pt \
     --text "བོད་ཡིག"
+```
 
-# 3. Run full pipeline on test set
+3. Run full pipeline on test set:
+```bash
 python3 tibetan-inference-flexible.py \
     --mode neural+lm+rules \
     --model_path tibetan_model_nontokenized_allchars.pt \
@@ -679,10 +566,12 @@ python3 tibetan-inference-flexible.py \
     --lm_backend python \
     --rules_dict abbreviations.txt \
     --input_file GoldTest_source.txt
+```
 
-# 4. Output automatically saved to GoldTest_source_prediction.txt
+4. Output will be automatically saved to `GoldTest_source_prediction.txt`.
 
-# 5. Evaluate with your metrics
+5. Evaluate with your metrics:
+```bash
 python3 evaluate.py \
     --predictions GoldTest_source_prediction.txt \
     --references GoldTest_target.txt
@@ -696,7 +585,7 @@ If you encounter issues:
 2. Verify all required files are present
 3. Try the simplest mode first (`--mode neural`)
 4. Check GPU is being used (`Using device: cuda`)
-5. Review the Troubleshooting section above
+5. Review the [Troubleshooting](#troubleshooting) section
 
 
 ## License
