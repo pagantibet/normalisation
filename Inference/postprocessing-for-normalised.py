@@ -2,7 +2,12 @@
 # -*- coding: utf-8 -*-
 """
 Postprocessing script for normalised Tibetan texts.
-Processes abbreviations and fixes punctuation/spacing issues, following the normalisation conventions of the PaganTibet project. For more see ADD FINAL NORMALISATION DOC HERE.
+Processes abbreviations and fixes punctuation/spacing issues, following the normalisation conventions of the PaganTibet project. 
+
+For more see Meelen, M., & Griffiths, R. M. (2026). Normalisation Manual (2.0). Zenodo. https://doi.org/10.5281/zenodo.18984001.
+
+The abbreviation dictionary used in Meelen, M. & Griffiths, R.M. (2026) 'Historical Tibetan Normalisation: rule-based vs neural & n-gram LM methods for extremely low-resource languages' in Proceedings of the AI4CHIEF conference, Springer. Is available on HuggingFace: 
+https://huggingface.co/datasets/pagantibet/Tibetan-abbreviation-dictionary
 
 Requirements:
 - Python 3.6 or higher
