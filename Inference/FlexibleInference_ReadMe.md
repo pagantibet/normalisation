@@ -543,7 +543,7 @@ python3 tibetan-inference-flexible.py \
 echo "All modes complete! Compare results_*.txt files"
 ```
 
-Then evaluate with your metrics script.
+Then evaluate with metrics script. See [Evaluations](https://github.com/pagantibet/normalisation/tree/main/Evaluations) folder.
 
 
 ## Example Workflow
@@ -575,9 +575,9 @@ python3 tibetan-inference-flexible.py \
 
 4. Output will be automatically saved to `GoldTest_source_prediction.txt`.
 
-5. Evaluate with your metrics:
+5. Evaluate with metrics (see [Evaluations](https://github.com/pagantibet/normalisation/tree/main/Evaluations) folder):
 ```bash
-python3 evaluate.py \
+python3 evaluate_model.py \
     --predictions GoldTest_source_prediction.txt \
     --references GoldTest_target.txt
 ```
