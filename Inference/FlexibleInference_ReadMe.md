@@ -209,7 +209,16 @@ pip install https://github.com/kpu/kenlm/archive/master.zip
 ### Optional: Pure Python ARPA (no installation needed)
 If you can't install KenLM, the script includes a pure Python ARPA reader. Just make sure `arpa_lm_python.py` is in the same directory.
 
+## Running on an HPC Cluster (SLURM)
 
+A [SLURM batch script](https://github.com/pagantibet/normalisation/blob/main/Inference/tibetan-inference-flexible.sh) is provided for running inference on an HPC cluster. To submit the job:
+```bash
+sbatch tibetan-inference-flexible.sh
+```
+
+The provided script requests an RTX 4090 GPU with 16 CPUs and a 6-hour time limit, and activates the `pagantibenv` conda environment before inference. Logs are saved to `slurm-out-<jobid>.txt` and errors to `slurm-err-<jobid>.txt`.
+
+It is pre-configured for `rules+neural` mode, but commented-out examples of all 6 modes and both tokenised/non-tokenised model options are included in the script for easy reference. Adjust the `#SBATCH` directives and mode arguments as needed for your cluster and dataset.
 
 ## Usage Examples
 
@@ -573,13 +582,15 @@ python3 tibetan-inference-flexible.py \
     --input_file GoldTest_source.txt
 ```
 
-4. Output will be automatically saved to `GoldTest_source_prediction.txt`.
+4. Output will be automatically saved to `GoldTest_predictions-4-neural+lm+rules.txt`.
 
 5. Evaluate with metrics (see [Evaluations](https://github.com/pagantibet/normalisation/tree/main/Evaluations) folder):
 ```bash
 python3 evaluate_model.py \
-    --predictions GoldTest_source_prediction.txt \
-    --references GoldTest_target.txt
+    --mode predictions \
+    --predictions GoldTest_predictions-4-neural+lm+rules.txt \
+    --test_src GoldTest_source.txt \
+    --test_tgt GoldTest_target.txt
 ```
 
 ## Support
