@@ -1,41 +1,94 @@
-# Evaluation Script Usage Guide
+# Tibetan Text Normalisation - Evaluation Script Usage Guide
+
+An evaluation script, which outputs character error rate (CER), precision, recall, F1-scores, correction precision (CP), and correction recall (CR) to assesses how well a model (or set of predictions) corrects errors in Tibetan script.
+
+This was developed as part of [PaganTibet](https://www.pagantibet.com/)'s Normalisation workflow. For more information, see our [Normalisation README](https://github.com/pagantibet/normalisation/tree/main?tab=readme-ov-file). 
+
+The seq2seq and KenLM models used in Meelen & Griffiths (2026) can be found on the [PaganTibet HuggingFace](https://huggingface.co/datasets/pagantibet/Tibetan-abbreviation-dictionary).
 
 ## Overview
 
-The updated `evaluate_model.py` script now supports two modes of evaluation:
+The `evaluate_model.py` script supports two modes of evaluation:
 
 1. **Model mode**: Load and run a trained neural model for inference and evaluation
-2. **Predictions mode**: Evaluate pre-generated predictions from any inference method
+2. **Predictions mode**: Evaluate pre-generated predictions from any inference method (for more on inference methods see the [Inference README](https://github.com/pagantibet/normalisation/blob/main/Inference/FlexibleInference_ReadMe.md))
 
-This allows you to evaluate all your different inference modes, including:
+This allows you to evaluate all different inference modes, including:
 - Pure neural seq2seq
 - Neural seq2seq + KenLM ranking
 - Rule-based preprocessing/postprocessing
 - Any combination of the above
 - Purely rule-based approaches (no neural model)
 
+## Evaluation Script Variants
+
+Two versions of the evaluation script are available:
+
+- `evaluate_model.py` — the standard script described in this README
+- `evaluate-model-withCIs.py` — an extended version that additionally computes **95% bootstrap confidence intervals (CI)** for all metrics
+
+### When to use `evaluate-model-withCIs.py`?
+
+Use the CI version when you need statistically robust results, for example:
+
+- Comparing two inference methods and wanting to know if the difference is significant
+- Working with a smaller test set where point estimates alone may be misleading
+
+It accepts all the same arguments as `evaluate_model.py`, plus one additional option:
+
+- `--bootstrap_n`: Number of bootstrap resampling iterations (default: 1000; set to `0` to disable)
+
+Output metrics will include confidence intervals, e.g.:
+```bash
+Character Error Rate (CER): 4.21%  (95% CI: 3.87–4.55%)
+F1 Score: 93.10%  (95% CI: 92.64–93.56%)
+```
+
+The text report is saved as `_CIreport.txt` rather than `_report.txt`.
+
+### When to use `evaluate_model.py`?
+
+- Quick iterative runs during development where CIs aren't needed
+- Large test sets where bootstrap resampling would add noticeable runtime
+- Any situation where a point estimate is sufficient
+
+## Running on an HPC Cluster (SLURM)
+
+A [SLURM batch script](https://github.com/pagantibet/normalisation/blob/main/Evaluations/evaluate-model.sh) is provided for running evaluation on an HPC cluster. To submit the job:
+```bash
+sbatch evaluate_model.sh
+```
+
+The provided script requests an RTX 4090 GPU with 16 CPUs and a 6-hour time limit, and activates the `pagantibenv` conda environment before evaluation. 
+
+It is pre-configured for predictions mode, but a commented-out example for model mode is also included. Note that predictions mode does not require a GPU. Adjust the `#SBATCH` directives, mode, and file paths as needed for your cluster and dataset.
+  
+
 ## Key Features
 
-✨ **Automatic Output File Generation**: The script now automatically:
+**Automatic Output File Generation**: The script automatically:
 - Creates the `evaluation-results/` directory if it doesn't exist
 - Generates output filenames from your predictions filename
 - Example: `predictions_neural.txt` → `evaluation-results/predictions_neural_eval.json` + `evaluation-results/predictions_neural_eval_report.txt`
 
-💡 **No --output flag needed** for most use cases!
+**No `--output`** flag needed for most use cases.
 
 ## Usage Examples
 
 ### Mode 1: Evaluating a Neural Model Directly
 
+
+**1. Simplest version** - outputs to `evaluation-results/evaluation_results.json` automatically:
 ```bash
-# Simplest version - outputs to evaluation-results/evaluation_results.json automatically
 python evaluate_model.py \
   --mode model \
   --model path/to/model.pth \
   --test_src test_source.txt \
   --test_tgt test_target.txt
+```
 
-# Or specify a custom output name (still goes to evaluation-results/)
+**2. Or specify a custom output name** (still goes to `evaluation-results/`):
+```bash
 python evaluate_model.py \
   --mode model \
   --model path/to/model.pth \
@@ -46,7 +99,7 @@ python evaluate_model.py \
 
 ### Mode 2: Evaluating Pre-generated Predictions
 
-#### Example 2a: Minimal - Neural Only (Automatic Output)
+**1. Minimal** - Neural Only (automatic output):
 
 ```bash
 # Output automatically goes to evaluation-results/predictions_neural_eval.json
@@ -58,7 +111,7 @@ python evaluate_model.py \
   --inference_method "neural"
 ```
 
-#### Example 2b: Neural + KenLM (with model metadata)
+**2. Neural + KenLM** (with model metadata):
 
 ```bash
 # Output automatically goes to evaluation-results/predictions_neural_lm_eval.json
@@ -75,7 +128,7 @@ python evaluate_model.py \
   --description "Seq2seq model with KenLM n-gram ranking for candidate selection"
 ```
 
-#### Example 2c: Rules + Neural + LM (Full Pipeline)
+**3. Rules + Neural + LM** (full pipeline):
 
 ```bash
 # Output automatically goes to evaluation-results/predictions_rules_neural_lm_eval.json
@@ -93,7 +146,7 @@ python evaluate_model.py \
   --description "Rule-based preprocessing, then seq2seq with KenLM ranking"
 ```
 
-#### Example 2d: Purely Rule-Based (No Neural Model)
+**4. Purely Rule-Based** (no neural model):
 
 ```bash
 # Output automatically goes to evaluation-results/predictions_rules_eval.json
@@ -105,17 +158,6 @@ python evaluate_model.py \
   --inference_method "rules" \
   --description "Purely rule-based normalization without neural model"
 ```
-
-## Supported Inference Methods
-
-Based on your `tibetan-inference-flexible.py` script, these are the 6 supported modes:
-
-1. **`rules`** - Rule-based only (dictionary + punctuation rules)
-2. **`neural`** - Seq2seq only (neural model)
-3. **`neural+lm`** - Seq2seq + KenLM (neural + language model)
-4. **`neural+lm+rules`** - Neural + LM + Rules (neural + LM, then rules postprocessing)
-5. **`rules+neural+lm`** - Rules + Neural + LM (rules preprocessing, then neural + LM)
-6. **`rules+neural`** - Rules + Neural (rules preprocessing, then neural)
 
 ## Command-Line Arguments
 
@@ -199,7 +241,7 @@ The script automatically generates two output files in the `evaluation-results/`
 
 The script calculates:
 
-- **Character Error Rate (CER)**: Edit distance normalized by reference length
+- **Character Error Rate (CER)**: Edit distance normalised by reference length
 - **Precision**: Correct characters / predicted characters
 - **Recall**: Correct characters / reference characters
 - **F1 Score**: Harmonic mean of precision and recall
@@ -208,73 +250,17 @@ The script calculates:
 
 ## Tips for Comparing Results
 
-1. **Automatic organization**: All evaluation results are automatically saved to `evaluation-results/` with descriptive names based on your predictions files
-
-2. **Name your predictions files clearly** for automatic organization:
+- **Automatic organisation**: All evaluation results are automatically saved to `evaluation-results/` with descriptive names based on your predictions files
+- **Name your predictions files clearly** for automatic organisation:
    ```
    predictions_neural.txt          → evaluation-results/predictions_neural_eval.json
    predictions_neural_lm.txt       → evaluation-results/predictions_neural_lm_eval.json
    predictions_rules_neural_lm.txt → evaluation-results/predictions_rules_neural_lm_eval.json
    predictions_rules.txt           → evaluation-results/predictions_rules_eval.json
    ```
-
-3. **Use metadata flags** to document what was used in each experiment (appears in reports)
-
-4. **The JSON output** can be easily parsed to create comparison tables or plots
-
-5. **The text reports** provide detailed information for documentation and analysis
-
-## Workflow Example
-
-1. Train your seq2seq model (generates `model.pth`)
-
-2. Run your inference script to generate predictions for different modes:
-   ```bash
-   # These create predictions_neural.txt, predictions_neural_lm.txt, etc.
-   python tibetan-inference-flexible.py --mode neural --model_path model.pth \
-     --input_file test_src.txt --output_file predictions_neural.txt
-   
-   python tibetan-inference-flexible.py --mode neural+lm --model_path model.pth \
-     --kenlm_path lm.arpa --input_file test_src.txt --output_file predictions_neural_lm.txt
-   
-   python tibetan-inference-flexible.py --mode rules --rules_dict abbrev.txt \
-     --input_file test_src.txt --output_file predictions_rules.txt
-   ```
-
-3. Evaluate each set of predictions (outputs automatically saved to `evaluation-results/`):
-   ```bash
-   # Evaluate neural only - creates evaluation-results/predictions_neural_eval.json
-   python evaluate_model.py \
-     --mode predictions \
-     --predictions predictions_neural.txt \
-     --test_src test_src.txt \
-     --test_tgt test_tgt.txt \
-     --inference_method "neural" \
-     --uses_neural_model \
-     --model model.pth
-   
-   # Evaluate neural + KenLM - creates evaluation-results/predictions_neural_lm_eval.json
-   python evaluate_model.py \
-     --mode predictions \
-     --predictions predictions_neural_lm.txt \
-     --test_src test_src.txt \
-     --test_tgt test_tgt.txt \
-     --inference_method "neural+lm" \
-     --uses_neural_model \
-     --uses_kenlm \
-     --model model.pth \
-     --kenlm_path lm.arpa
-   
-   # Evaluate rules only - creates evaluation-results/predictions_rules_eval.json
-   python evaluate_model.py \
-     --mode predictions \
-     --predictions predictions_rules.txt \
-     --test_src test_src.txt \
-     --test_tgt test_tgt.txt \
-     --inference_method "rules"
-   ```
-
-4. Compare the results: all JSON and text reports are in `evaluation-results/` folder
+- **Use metadata flags** to document what was used in each experiment (appears in reports)
+- **The JSON output** can be easily parsed to create comparison tables or plots
+- **The text reports** provide detailed information for documentation and analysis
 
 ## Notes
 
