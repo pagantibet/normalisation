@@ -174,13 +174,13 @@ Full details of evaluation results including confidence intervals and example pr
       held responsible for them.</sub>
     </td>
     <td width="53%" align="center" valign="middle">
-      <img src="https://erc.europa.eu/sites/default/files/2025-08/LOGO_ERC-FLAG_EU.png" alt="ERC" height="70">
+      <img src="https://erc.europa.eu/sites/default/files/2025-08/LOGO_ERC-FLAG_EU.png" alt="ERC" height="50">
       &nbsp;&nbsp;
-      <img src="https://www.crcao.fr/assets/images/logo-crcao.png" alt="CRACO" height="70">
+      <img src="https://www.crcao.fr/assets/images/logo-crcao.png" alt="CRACO" height="50">
       &nbsp;&nbsp;
-      <img src="https://www.crcao.fr/uploads/2026/06/logo_ephe_psl_rvb_blanc_cadre-421x500.png" alt="EPHE" height="70">
+      <img src="https://www.crcao.fr/uploads/2026/06/logo_ephe_psl_rvb_blanc_cadre-421x500.png" alt="EPHE" height="50">
       &nbsp;&nbsp;
-      <img src="https://www.cam.ac.uk/sites/default/files/secondary-logo-stacked.png" alt="Cambridge University" height="75">
+      <img src="https://www.cam.ac.uk/sites/default/files/secondary-logo-stacked.png" alt="Cambridge University" height="55">
     </td>
   </tr>
 </table>
