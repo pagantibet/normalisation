@@ -135,7 +135,7 @@ To normalise Tibetan text, we make 6 different inference modes available:
 
 Note that modes without rule-based pre- and/or postprocessing are likely to yield poorer results for challenging corpora like the PaganTibet ones. For more standard Buddhist texts, neural Seq-2-Seq models only perform reasonably well for non-tokenised text. For further details and full results, see Meelen & Griffiths (2026).
 
-The flexible inference script can be run using slurm on GPU clusters as well or directly using python to create prediciton files and reports:
+The flexible inference script can be run using slurm on GPU clusters as well or directly using python to create prediction files and reports:
 
 ```
 sbatch tibetan-inference-flexible.sh 
@@ -148,7 +148,7 @@ The full ReadMe of this script can be found in [Inference/tibetan-inference-flex
 
 # Evaluations
 
-The Seq-2-Seq training script has a built-in evaluation model using beam search. All six inference modes can also be evaluated separately using the evaluation script, which outputs standard measures like CER, precision, recall and F1-scores, but also - following [Huang et al (2023)](https://www.isca-archive.org/sigul_2023/huang23_sigul.html) - Correction Precision (CP) and Recall (CR) to get a more accurate picture of how effectively Normalisation was done. For very small datasets, bootstrapping over 1000 iterations to gauge Confidence Intervals (CIs) is recommended. It can be run on prediction files (i.e. the output of the inference scrips) a cluster or directly using python:
+The Seq-2-Seq training script has a built-in evaluation model using beam search. All six inference modes can also be evaluated separately using the evaluation script, which outputs standard measures like CER, precision, recall and F1-scores, but also - following [Huang et al (2023)](https://www.isca-archive.org/sigul_2023/huang23_sigul.html) - Correction Precision (CP) and Recall (CR) to get a more accurate picture of how effectively Normalisation was done. For very small datasets, bootstrapping over 1000 iterations to gauge Confidence Intervals (CIs) is recommended. It can be run on prediction files (i.e. the output of the inference scripts) a cluster or directly using python:
 
 ```
 sbatch evaluate-model.sh
